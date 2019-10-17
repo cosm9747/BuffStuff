@@ -1,0 +1,40 @@
+{
+  "project_info": {
+    "project_number": "17437504679",
+    "firebase_url": "https://buffstuff-6f3c8.firebaseio.com",
+    "project_id": "buffstuff-6f3c8",
+    "storage_bucket": "buffstuff-6f3c8.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:17437504679:android:be830f1fe3d2dc7e9ed782",
+        "android_client_info": {
+          "package_name": "com.example.buffstuff"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "17437504679-nuo490kl05ta6ju9umvqhel7pqs3rnrq.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyCRchllsfQo8113BLg7Cg7PBeAFJld34tY"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": [
+            {
+              "client_id": "17437504679-nuo490kl05ta6ju9umvqhel7pqs3rnrq.apps.googleusercontent.com",
+              "client_type": 3
+            }
+          ]
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}
