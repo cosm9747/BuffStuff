@@ -22,11 +22,14 @@ public class BuyActivity extends AppCompatActivity{
     RecyclerView recyclerView;
     Adapter adapter;
     ArrayList<Item> Items = new ArrayList<Item>();
+    FirebaseFirestore db;
 
     public static final String[] Names= {"Textbook1","Clicker", "Pens","Couch","Textbook2","Item","Item1","Item2","Item3","Item4","Item5", "Item6", "Item7", "Item8"};
+    public static final Double[] Prices= {1.0,2.0,3.0,4.0,5.0,6.0,7.0,8.0,9.0,10.0,11.0,12.0,13.0,14.0};
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
+        db = FirebaseFirestore.getInstance();
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_buy);
 
@@ -34,6 +37,7 @@ public class BuyActivity extends AppCompatActivity{
         {
             Item item = new Item();
             item.setName(Names[i]);
+            item.setPrice(Prices[i]);
 
             Items.add(item);
         }

@@ -7,7 +7,7 @@
     android:layout_marginStart="8dp"
     android:layout_marginTop="8dp"
     android:layout_marginEnd="8dp"
-    app:cardBackgroundColor="#FFFFE8">
+    app:cardBackgroundColor="#D8D84F">
 
     <RelativeLayout
         android:layout_width="match_parent"
@@ -22,10 +22,19 @@
             android:layout_alignParentLeft="true"
             android:ellipsize="end"
             android:maxLines="1"
-            android:text="Name"
-            android:textAppearance="@style/TextAppearance.AppCompat.Large"
+            android:text="Title"
+            android:textAppearance="@style/TextAppearance.AppCompat.Large" />
 
-            />
+        <TextView
+            android:id="@+id/text_view_price"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_alignParentRight="true"
+            android:ellipsize="end"
+            android:maxLines="1"
+            android:text="Price"
+            android:textAppearance="@style/TextAppearance.AppCompat.Large" />
+
 
     </RelativeLayout>
 
