@@ -1,20 +1,23 @@
 package com.example.buffstuff;
 
+import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
 import android.content.Intent;
 import android.os.Bundle;
+import android.util.Log;
 import android.view.Menu;
 import android.view.MenuInflater;
 import android.view.MenuItem;
 import android.view.View;
 
-import com.firebase.ui.firestore.FirestoreRecyclerOptions;
-import com.google.firebase.firestore.CollectionReference;
+import com.google.android.gms.tasks.OnCompleteListener;
+import com.google.android.gms.tasks.Task;
 import com.google.firebase.firestore.FirebaseFirestore;
-import com.google.firebase.firestore.Query;
+import com.google.firebase.firestore.QueryDocumentSnapshot;
+import com.google.firebase.firestore.QuerySnapshot;
 
 import java.util.ArrayList;
 
@@ -22,32 +25,52 @@ public class BuyActivity extends AppCompatActivity{
     RecyclerView recyclerView;
     Adapter adapter;
     ArrayList<Item> Items = new ArrayList<Item>();
-    FirebaseFirestore db;
-
-    public static final String[] Names= {"Textbook1","Clicker", "Pens","Couch","Textbook2","Item","Item1","Item2","Item3","Item4","Item5", "Item6", "Item7", "Item8"};
-    public static final Double[] Prices= {1.0,2.0,3.0,4.0,5.0,6.0,7.0,8.0,9.0,10.0,11.0,12.0,13.0,14.0};
+    FirebaseFirestore db = FirebaseFirestore.getInstance();
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
-        db = FirebaseFirestore.getInstance();
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_buy);
+        final RecyclerView.LayoutManager hold = new LinearLayoutManager(this);
+        db.collection("items")
+                .get()
+                .addOnCompleteListener(new OnCompleteListener<QuerySnapshot>() {
+                    @Override
+                    public void onComplete(@NonNull Task<QuerySnapshot> task) {
+                        if (task.isSuccessful()) {
+                            for (QueryDocumentSnapshot document : task.getResult()) {
+                                Item item = new Item();
+                                item.setName(document.getString("name"));
+                                Double priceHold = (document.getDouble("price"));
+                                item.setPrice(priceHold);
 
-        for(int i=0;i<Names.length;i++)
-        {
-            Item item = new Item();
-            item.setName(Names[i]);
-            item.setPrice(Prices[i]);
+                                Items.add(item);
+                                String print = "" + Items.size();
+                                Log.d("Somewhat success", print);
 
-            Items.add(item);
-        }
+                            }
+                        } else {
+                            Item item = new Item();
+                            item.setName("Problem");
 
+                            Items.add(item);
+                        }
+                        setContentView(R.layout.activity_buy);
 
-        adapter = new Adapter(Items);
+                        String print = "" + Items.size();
+                        Log.d("Somewhat success", print);
 
-        recyclerView = (RecyclerView)findViewById(R.id.recycler_view);
-        recyclerView.setLayoutManager(new LinearLayoutManager(this));
-        recyclerView.setAdapter(adapter);
+                        recyclerView = (RecyclerView) findViewById(R.id.recycler_view);
+                        recyclerView.setLayoutManager(hold);
+                        adapter = new Adapter(Items);
+
+                        Log.d("Somewhat success", "maximum out");
+                        recyclerView.setAdapter(adapter);
+                    }
+                });
+
+    }
+    public class Load{
+
     }
 
     public boolean onCreateOptionsMenu(Menu menu) {
