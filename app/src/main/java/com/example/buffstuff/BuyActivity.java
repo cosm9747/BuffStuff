@@ -45,7 +45,6 @@ public class BuyActivity extends AppCompatActivity{
 
                                 Items.add(item);
                                 String print = "" + Items.size();
-                                Log.d("Somewhat success", print);
 
                             }
                         } else {
@@ -57,19 +56,14 @@ public class BuyActivity extends AppCompatActivity{
                         setContentView(R.layout.activity_buy);
 
                         String print = "" + Items.size();
-                        Log.d("Somewhat success", print);
 
                         recyclerView = (RecyclerView) findViewById(R.id.recycler_view);
                         recyclerView.setLayoutManager(hold);
                         adapter = new Adapter(Items);
 
-                        Log.d("Somewhat success", "maximum out");
                         recyclerView.setAdapter(adapter);
                     }
                 });
-
-    }
-    public class Load{
 
     }
 
@@ -99,9 +93,13 @@ public class BuyActivity extends AppCompatActivity{
         }
     }
     public void buttonSelect(View item) {
+        Log.d("Somewhat success", "In function");
         int id = item.getId();
         if (id == R.id.filter) {
-            setContentView(R.layout.filter);
+            Log.d("Somewhat success", "in if");
+            Intent intent = new Intent(this, FilterActivity.class);
+            Log.d("Somewhat success", "about to start");
+            startActivity(intent);
         }
     }
 }
