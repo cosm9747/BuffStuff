@@ -16,6 +16,7 @@ import com.google.firebase.auth.AuthResult;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.auth.FirebaseAuthInvalidCredentialsException;
 import com.google.firebase.auth.FirebaseAuthUserCollisionException;
+import com.google.firebase.auth.FirebaseAuthWeakPasswordException;
 import com.google.firebase.auth.FirebaseUser;
 
 public class SignUpActivity extends AppCompatActivity {
@@ -41,54 +42,63 @@ public class SignUpActivity extends AppCompatActivity {
         String password = editText2.getText().toString();
         String confirmPassword = editText3.getText().toString();
 
-        if(!email.contains("@colorado.edu")){
-            Toast.makeText(SignUpActivity.this, "Please enter your CU Email.",
-                    Toast.LENGTH_SHORT).show();
-        }
-        else if(!password.equals(confirmPassword)) {
-            Toast.makeText(SignUpActivity.this, "Passwords must match.",
-                    Toast.LENGTH_SHORT).show();
-        }
-        else{
-            final Intent intent = new Intent(this, BuyActivity.class);
-            mAuth.createUserWithEmailAndPassword(email, password)
-                    .addOnCompleteListener(this, new OnCompleteListener<AuthResult>() {
-                        @Override
-                        public void onComplete(@NonNull Task<AuthResult> task) {
-                            if (task.isSuccessful()) {
-                                Log.d("Success", "createUserWithEmail:success");
-                                FirebaseUser user = mAuth.getCurrentUser();
-                                startActivity(intent);
-                            } else {
+            if(email.length() != 0 && password.length() != 0 && confirmPassword.length() != 0){
+                if(!email.contains("@colorado.edu")){
+                    Toast.makeText(SignUpActivity.this, "Please enter your CU Email.",
+                            Toast.LENGTH_SHORT).show();
+                }
+                else if(!password.equals(confirmPassword)) {
+                    Toast.makeText(SignUpActivity.this, "Passwords must match.",
+                            Toast.LENGTH_SHORT).show();
+                }
+                final Intent intent = new Intent(this, BuyActivity.class);
+                mAuth.createUserWithEmailAndPassword(email, password)
+                        .addOnCompleteListener(this, new OnCompleteListener<AuthResult>() {
+                            @Override
+                            public void onComplete(@NonNull Task<AuthResult> task) {
+                                if (task.isSuccessful()) {
+                                    Log.d("Success", "createUserWithEmail:success");
+                                    FirebaseUser user = mAuth.getCurrentUser();
+                                    startActivity(intent);
+                                } else {
 
-                                try {
-                                    throw task.getException();
-                                }
-                                catch (FirebaseAuthInvalidCredentialsException malformedEmail)
-                                {
-                                    Log.d("INVEMAIL", "onComplete: malformed_email");
+                                    try {
+                                        throw task.getException();
+                                    }
+                                    catch (FirebaseAuthWeakPasswordException weakPassword){
+                                        Log.d("INVPASS", "onComplete: weakPassword");
+                                        Toast.makeText(SignUpActivity.this, "Password must be at least 6 characters.",
+                                                Toast.LENGTH_SHORT).show();
+                                    }
+                                    catch (FirebaseAuthUserCollisionException existEmail)
+                                    {
+                                        Log.d("USEREXISTS", "onComplete: exist_email");
 
-                                    Toast.makeText(SignUpActivity.this, "Must be a valid email address.",
-                                            Toast.LENGTH_SHORT).show();
-                                }
-                                catch (FirebaseAuthUserCollisionException existEmail)
-                                {
-                                    Log.d("USEREXISTS", "onComplete: exist_email");
+                                        Toast.makeText(SignUpActivity.this, "A user with this email already exists.",
+                                                Toast.LENGTH_SHORT).show();
+                                    }
+                                    catch (FirebaseAuthInvalidCredentialsException malformedEmail)
+                                    {
+                                        Log.d("INVEMAIL", "onComplete: malformed_email");
 
-                                    Toast.makeText(SignUpActivity.this, "A user with this email already exists.",
-                                            Toast.LENGTH_SHORT).show();
-                                }
-                                catch (Exception e)
-                                {
-                                    Log.d("ERROR", "onComplete: " + e.getMessage());
-                                    Toast.makeText(SignUpActivity.this, "Unable to Sign Up.",
-                                            Toast.LENGTH_SHORT).show();
+                                        Toast.makeText(SignUpActivity.this, "Must be a valid email address.",
+                                                Toast.LENGTH_SHORT).show();
+                                    }
+                                    catch (Exception e)
+                                    {
+                                        Log.d("ERROR", "onComplete: " + e.getMessage());
+                                        Toast.makeText(SignUpActivity.this, "Unable to Sign Up.",
+                                                Toast.LENGTH_SHORT).show();
+                                    }
+
                                 }
 
                             }
-
-                        }
-                    });
+                        });
+            }
+            else {
+                Toast.makeText(SignUpActivity.this, "Unable to Sign Up.",
+                        Toast.LENGTH_SHORT).show();
+            }
         }
-    }
 }

@@ -54,26 +54,31 @@ public class MainActivity extends AppCompatActivity {
         String email = editText.getText().toString();
         String password = editText2.getText().toString();
 
+        if(email.length() != 0 && password.length() != 0){
+            final Intent intent = new Intent(this, BuyActivity.class);
+            mAuth.signInWithEmailAndPassword(email, password)
+                    .addOnCompleteListener(this, new OnCompleteListener<AuthResult>() {
+                        @Override
+                        public void onComplete(@NonNull Task<AuthResult> task) {
+                            if (task.isSuccessful()) {
+                                // Sign in success, update UI with the signed-in user's information
+                                Log.d("Success", "signInWithEmail:success");
+                                FirebaseUser user = mAuth.getCurrentUser();
+                                startActivity(intent);
+                            } else {
+                                // If sign in fails, display a message to the user.
+                                Log.w("Error", "signInWithEmail:failure", task.getException());
+                                Toast.makeText(MainActivity.this, "Invalid Email or Password.",
+                                        Toast.LENGTH_SHORT).show();
+                            }
 
-        final Intent intent = new Intent(this, BuyActivity.class);
-        mAuth.signInWithEmailAndPassword(email, password)
-                .addOnCompleteListener(this, new OnCompleteListener<AuthResult>() {
-                    @Override
-                    public void onComplete(@NonNull Task<AuthResult> task) {
-                        if (task.isSuccessful()) {
-                            // Sign in success, update UI with the signed-in user's information
-                            Log.d("Success", "signInWithEmail:success");
-                            FirebaseUser user = mAuth.getCurrentUser();
-                            startActivity(intent);
-                        } else {
-                            // If sign in fails, display a message to the user.
-                            Log.w("Error", "signInWithEmail:failure", task.getException());
-                            Toast.makeText(MainActivity.this, "Invalid Email or Password.",
-                                    Toast.LENGTH_SHORT).show();
                         }
-
-                    }
-                });
+                    });
+        }
+        else {
+            Toast.makeText(MainActivity.this, "Invalid Email or Password.",
+                    Toast.LENGTH_SHORT).show();
+        }
     }
 
 }
