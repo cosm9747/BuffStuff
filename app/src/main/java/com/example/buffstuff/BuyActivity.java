@@ -12,6 +12,7 @@ import android.view.Menu;
 import android.view.MenuInflater;
 import android.view.MenuItem;
 import android.view.View;
+import android.widget.EditText;
 
 import com.google.android.gms.tasks.OnCompleteListener;
 import com.google.android.gms.tasks.Task;
@@ -29,9 +30,18 @@ public class BuyActivity extends AppCompatActivity{
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
+        Log.d( "Somewhat success", "In onCreate");
         super.onCreate(savedInstanceState);
+        Intent loadIntent = getIntent();
+        Log.d( "Somewhat success", "And then");
+        final String searchName = loadIntent.getStringExtra("SEARCH_NAME");
+        Log.d( "Somewhat success", "Before");
+        Log.d( "Somewhat success", searchName);
+        Log.d( "Somewhat success", "After");
         final RecyclerView.LayoutManager hold = new LinearLayoutManager(this);
-        db.collection("items")
+        if (searchName.equals(" ")){
+            Log.d("Somewhat success", "Here");
+            db.collection("items")
                 .get()
                 .addOnCompleteListener(new OnCompleteListener<QuerySnapshot>() {
                     @Override
@@ -64,7 +74,45 @@ public class BuyActivity extends AppCompatActivity{
                         recyclerView.setAdapter(adapter);
                     }
                 });
+        }
+        else{
+            db.collection("items")
+                .whereEqualTo("name", searchName)
+                .get()
+                .addOnCompleteListener(new OnCompleteListener<QuerySnapshot>() {
+                    @Override
+                    public void onComplete(@NonNull Task<QuerySnapshot> task) {
+                        if (task.isSuccessful()) {
+                            for (QueryDocumentSnapshot document : task.getResult()) {
+                                Item item = new Item();
+                                item.setName(document.getString("name"));
+                                Double priceHold = (document.getDouble("price"));
+                                item.setPrice(priceHold);
 
+                                Items.add(item);
+                                String print = "" + Items.size();
+
+                            }
+                        } else {
+                            Item item = new Item();
+                            item.setName("Problem");
+
+                            Items.add(item);
+                        }
+                        setContentView(R.layout.activity_buy);
+
+                        String print = "" + Items.size();
+
+                        recyclerView = (RecyclerView) findViewById(R.id.recycler_view);
+                        recyclerView.setLayoutManager(hold);
+                        adapter = new Adapter(Items);
+
+                        recyclerView.setAdapter(adapter);
+                        EditText editText = findViewById(R.id.searchInput);
+                        editText.setText(searchName);
+                    }
+                });
+        }
     }
 
     public boolean onCreateOptionsMenu(Menu menu) {
@@ -96,9 +144,14 @@ public class BuyActivity extends AppCompatActivity{
         Log.d("Somewhat success", "In function");
         int id = item.getId();
         if (id == R.id.filter) {
-            Log.d("Somewhat success", "in if");
             Intent intent = new Intent(this, FilterActivity.class);
-            Log.d("Somewhat success", "about to start");
+            startActivity(intent);
+        }
+        if(id == R.id.search){
+            Intent intent = new Intent(this, BuyActivity.class);
+            EditText editText = findViewById(R.id.searchInput);
+            String search = editText.getText().toString();
+            intent.putExtra("SEARCH_NAME", search);
             startActivity(intent);
         }
     }

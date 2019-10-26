@@ -35,6 +35,7 @@ public class MainActivity extends AppCompatActivity {
 
     public void goToHomeScreen(View view) {
         Intent intent = new Intent(this, BuyActivity.class);
+        intent.putExtra("SEARCH_NAME", " ");
         startActivity(intent);
     }
 
