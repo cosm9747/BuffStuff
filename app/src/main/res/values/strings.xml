@@ -1,7 +1,11 @@
 <resources>
     <string name="app_name">BuffStuff</string>
-    <string name="user_login">Login/Signup</string>
+    <string name="user_login">Login</string>
+    <string name="user_signup">Sign Up</string>
     <string name="login_email">CU Email</string>
     <string name="login_password">Password</string>
+    <string name="password_confirmation">Confirm Password</string>
     <string name="password_reset"><u>reset password?</u></string>
+    <string name="new_user"><u>new user?</u></string>
+    <string name="returning_user"><u>already a user?</u></string>
 </resources>
