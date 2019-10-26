@@ -53,7 +53,7 @@ public class MainActivity extends AppCompatActivity {
         EditText editText2 = (EditText) findViewById(R.id.editText2);
         String email = editText.getText().toString();
         String password = editText2.getText().toString();
-
+        //test
         if(email.length() != 0 && password.length() != 0){
             final Intent intent = new Intent(this, BuyActivity.class);
             intent.putExtra("SEARCH_NAME", " ");
