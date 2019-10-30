@@ -127,7 +127,8 @@ public class BuyActivity extends AppCompatActivity{
     public void menuSelect(MenuItem item) {
         int id = item.getItemId();
         if (id == R.id.buy) {
-            Intent intent = new Intent(this, BuyActivity.class);
+            final Intent intent = new Intent(this, BuyActivity.class);
+            intent.putExtra("SEARCH_NAME", " ");
             startActivity(intent);
         }
         else if (id == R.id.sell) {
