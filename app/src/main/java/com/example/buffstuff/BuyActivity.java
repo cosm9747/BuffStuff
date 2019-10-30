@@ -134,7 +134,8 @@ public class BuyActivity extends AppCompatActivity{
             setContentView(R.layout.activity_sell);
         }
         else if (id == R.id.chat) {
-            setContentView(R.layout.activity_chat);
+            Intent chatIntent = new Intent(this, ChatActivity.class);
+            startActivity(chatIntent);
         }
         else if (id == R.id.user) {
             setContentView(R.layout.user);
