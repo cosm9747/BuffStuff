@@ -47,7 +47,6 @@ public class BuyActivity extends AppCompatActivity{
         }
         //Hold this context
         //Find out what the searc term is
-        final String searchName = loadIntent.getStringExtra("SEARCH_NAME");
         final RecyclerView.LayoutManager hold = new LinearLayoutManager(this);
         //If there was no search term...
         if (searchName.equals(" ")){
