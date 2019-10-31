@@ -36,8 +36,12 @@ public class MainActivity extends AppCompatActivity {
     public void onStart() {
         super.onStart();
         // Check if user is signed in (non-null) and update UI accordingly.
-//        FirebaseUser currentUser = mAuth.getCurrentUser();
-        //updateUI(currentUser);
+        FirebaseUser currentUser = mAuth.getCurrentUser();
+        if (currentUser != null){
+            Intent intent = new Intent(this, BuyActivity.class);
+            intent.putExtra("SEARCH_NAME", " ");
+            startActivity(intent);
+        }
     }
 
     public void goToSignUp(View view) {
@@ -53,7 +57,6 @@ public class MainActivity extends AppCompatActivity {
         EditText editText2 = (EditText) findViewById(R.id.editText2);
         String email = editText.getText().toString();
         String password = editText2.getText().toString();
-        //test
         if(email.length() != 0 && password.length() != 0){
             final Intent intent = new Intent(this, BuyActivity.class);
             intent.putExtra("SEARCH_NAME", " ");
