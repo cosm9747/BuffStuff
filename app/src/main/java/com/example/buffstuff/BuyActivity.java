@@ -33,11 +33,17 @@ public class BuyActivity extends AppCompatActivity{
         Log.d( "Somewhat success", "In onCreate");
         super.onCreate(savedInstanceState);
         Intent loadIntent = getIntent();
+<<<<<<< Updated upstream
         Log.d( "Somewhat success", "And then");
         final String searchName = loadIntent.getStringExtra("SEARCH_NAME");
         Log.d( "Somewhat success", "Before");
         Log.d( "Somewhat success", searchName);
         Log.d( "Somewhat success", "After");
+=======
+        //Find out what the search term is
+        final String searchName = loadIntent.getStringExtra("SEARCH_NAME");
+        //Hold this context
+>>>>>>> Stashed changes
         final RecyclerView.LayoutManager hold = new LinearLayoutManager(this);
         if (searchName.equals(" ")){
             Log.d("Somewhat success", "Here");
@@ -50,8 +56,8 @@ public class BuyActivity extends AppCompatActivity{
                             for (QueryDocumentSnapshot document : task.getResult()) {
                                 Item item = new Item();
                                 item.setName(document.getString("name"));
-                                Double priceHold = (document.getDouble("price"));
-                                item.setPrice(priceHold);
+                                item.setPrice(document.getDouble("price"));
+                                item.setId(document.getId());
 
                                 Items.add(item);
                                 String print = "" + Items.size();
@@ -141,18 +147,26 @@ public class BuyActivity extends AppCompatActivity{
         }
     }
     public void buttonSelect(View item) {
-        Log.d("Somewhat success", "In function");
         int id = item.getId();
         if (id == R.id.filter) {
             Intent intent = new Intent(this, FilterActivity.class);
             startActivity(intent);
         }
+<<<<<<< Updated upstream
         if(id == R.id.search){
+=======
+        //If search button clicked, reload buy page with new search term
+        else if(id == R.id.search){
+>>>>>>> Stashed changes
             Intent intent = new Intent(this, BuyActivity.class);
             EditText editText = findViewById(R.id.searchInput);
             String search = editText.getText().toString();
             intent.putExtra("SEARCH_NAME", search);
             startActivity(intent);
         }
+    }
+    //When a card clicked, open of view of card item
+    public void itemSelect(String id) {
+
     }
 }

@@ -12,7 +12,6 @@ import androidx.appcompat.app.AppCompatActivity;
 public class FilterActivity extends AppCompatActivity {
     @Override
     protected void onCreate(Bundle savedInstanceState) {
-        Log.d("Somewhat success", "in filter java");
         super.onCreate(savedInstanceState);
         setContentView(R.layout.filter);
     }
