@@ -52,6 +52,7 @@ public class SignUpActivity extends AppCompatActivity {
                             Toast.LENGTH_SHORT).show();
                 }
                 final Intent intent = new Intent(this, BuyActivity.class);
+                intent.putExtra("SEARCH_NAME", " ");
                 mAuth.createUserWithEmailAndPassword(email, password)
                         .addOnCompleteListener(this, new OnCompleteListener<AuthResult>() {
                             @Override

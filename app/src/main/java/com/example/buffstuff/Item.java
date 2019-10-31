@@ -1,5 +1,6 @@
 package com.example.buffstuff;
 
+//A class for each item; used to display in buy page
 public class Item {
     private String name;
     private Double price;

@@ -14,7 +14,7 @@ import androidx.recyclerview.widget.RecyclerView;
 
 import java.util.List;
 
-
+//Adapter to create card for items and add them to recyclerView in buy page
 public class Adapter extends RecyclerView.Adapter<Adapter.ViewHolder> {
 
     List<Item> ItemList;
@@ -26,6 +26,7 @@ public class Adapter extends RecyclerView.Adapter<Adapter.ViewHolder> {
     }
 
     @Override
+    //When new view is made, make a new view holder
     public ViewHolder onCreateViewHolder(ViewGroup parent, int viewType) {
         View view = LayoutInflater.from(parent.getContext()).inflate(R.layout.item, parent, false);
         ViewHolder viewHolder = new ViewHolder(view);
@@ -34,6 +35,7 @@ public class Adapter extends RecyclerView.Adapter<Adapter.ViewHolder> {
     }
 
     @Override
+    //When this adapter is bound to a view, set the holder title and price
     public void onBindViewHolder(ViewHolder holder, final int position) {
         final Item thing = ItemList.get(position);
 
@@ -62,7 +64,7 @@ public class Adapter extends RecyclerView.Adapter<Adapter.ViewHolder> {
         TextView title;
         TextView price;
         CardView cv;
-
+        //Create new itemView for each item in passed item list
         public ViewHolder(View itemView)
         {
             super(itemView);
