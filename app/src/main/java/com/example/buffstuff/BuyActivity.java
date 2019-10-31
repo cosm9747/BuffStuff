@@ -34,7 +34,16 @@ public class BuyActivity extends AppCompatActivity{
         super.onCreate(savedInstanceState);
         Intent loadIntent = getIntent();
         //Find out what the search term is
-        final String searchName = loadIntent.getStringExtra("SEARCH_NAME");
+        // Get the extras (if there are any)
+        Bundle extras = loadIntent.getExtras();
+        final String searchName;
+        if (extras == null) {
+            searchName = " ";
+            loadIntent.putExtra("SEARCH NAME", " ");
+        }
+        else{
+            searchName = loadIntent.getStringExtra("SEARCH_NAME");
+        }
         //Hold this context
         final RecyclerView.LayoutManager hold = new LinearLayoutManager(this);
         if (searchName.equals(" ")){
@@ -52,8 +61,6 @@ public class BuyActivity extends AppCompatActivity{
                                 item.setId(document.getId());
 
                                 Items.add(item);
-                                String print = "" + Items.size();
-
                             }
                         } else {
                             Item item = new Item();
