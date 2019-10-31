@@ -34,8 +34,19 @@ public class BuyActivity extends AppCompatActivity{
         //When this function is called
         super.onCreate(savedInstanceState);
         Intent loadIntent = getIntent();
+        //Find out what the search term is
+        // Get the extras (if there are any)
+        Bundle extras = loadIntent.getExtras();
+        final String searchName;
+        if (extras == null) {
+            searchName = " ";
+            loadIntent.putExtra("SEARCH NAME", " ");
+        }
+        else{
+            searchName = loadIntent.getStringExtra("SEARCH_NAME");
+        }
+        //Hold this context
         //Find out what the searc term is
-        final String searchName = loadIntent.getStringExtra("SEARCH_NAME");
         final RecyclerView.LayoutManager hold = new LinearLayoutManager(this);
         //If there was no search term...
         if (searchName.equals(" ")){
@@ -53,8 +64,8 @@ public class BuyActivity extends AppCompatActivity{
                             for (QueryDocumentSnapshot document : task.getResult()) {
                                 Item item = new Item();
                                 item.setName(document.getString("name"));
-                                Double priceHold = (document.getDouble("price"));
-                                item.setPrice(priceHold);
+                                item.setPrice(document.getDouble("price"));
+                                item.setId(document.getId());
 
                                 Items.add(item);
                             }
@@ -147,7 +158,6 @@ public class BuyActivity extends AppCompatActivity{
     }
     //Functions for each button pushed
     public void buttonSelect(View item) {
-        Log.d("Somewhat success", "In function");
         int id = item.getId();
         //If filter button pushed, open up filter page
         if (id == R.id.filter) {
