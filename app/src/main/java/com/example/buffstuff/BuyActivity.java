@@ -22,6 +22,7 @@ import com.google.firebase.firestore.QuerySnapshot;
 
 import java.util.ArrayList;
 
+//Load page that shows buy options
 public class BuyActivity extends AppCompatActivity{
     RecyclerView recyclerView;
     Adapter adapter;
@@ -30,23 +31,25 @@ public class BuyActivity extends AppCompatActivity{
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
-        Log.d( "Somewhat success", "In onCreate");
+        //When this function is called
         super.onCreate(savedInstanceState);
         Intent loadIntent = getIntent();
-        Log.d( "Somewhat success", "And then");
+        //Find out what the searc term is
         final String searchName = loadIntent.getStringExtra("SEARCH_NAME");
-        Log.d( "Somewhat success", "Before");
-        Log.d( "Somewhat success", searchName);
-        Log.d( "Somewhat success", "After");
         final RecyclerView.LayoutManager hold = new LinearLayoutManager(this);
+        //If there was no search term...
         if (searchName.equals(" ")){
-            Log.d("Somewhat success", "Here");
+            //Get all items from firebase
             db.collection("items")
                 .get()
                 .addOnCompleteListener(new OnCompleteListener<QuerySnapshot>() {
                     @Override
                     public void onComplete(@NonNull Task<QuerySnapshot> task) {
+                        //If succesfully accessed firebase
                         if (task.isSuccessful()) {
+                            //For every item in the database
+                                //Create an item card, set its name and price
+                                //Add item card to item list
                             for (QueryDocumentSnapshot document : task.getResult()) {
                                 Item item = new Item();
                                 item.setName(document.getString("name"));
@@ -54,19 +57,16 @@ public class BuyActivity extends AppCompatActivity{
                                 item.setPrice(priceHold);
 
                                 Items.add(item);
-                                String print = "" + Items.size();
-
                             }
-                        } else {
-                            Item item = new Item();
-                            item.setName("Problem");
-
-                            Items.add(item);
                         }
+                        //If failed to access firebase
+                        else {
+                            Log.d("Debug", "Problem");
+                        }
+                        //Display buy activity on screen
                         setContentView(R.layout.activity_buy);
 
-                        String print = "" + Items.size();
-
+                        //Set the adapter to add all the item cards to the recycler view
                         recyclerView = (RecyclerView) findViewById(R.id.recycler_view);
                         recyclerView.setLayoutManager(hold);
                         adapter = new Adapter(Items);
@@ -75,7 +75,9 @@ public class BuyActivity extends AppCompatActivity{
                     }
                 });
         }
+        //If a search term was entered
         else{
+            //Search database for all items with name that has search term
             db.collection("items")
                 .whereEqualTo("name", searchName)
                 .get()
@@ -83,6 +85,9 @@ public class BuyActivity extends AppCompatActivity{
                     @Override
                     public void onComplete(@NonNull Task<QuerySnapshot> task) {
                         if (task.isSuccessful()) {
+                            //For every item that matches search term
+                                //Create an item card, set its name and price
+                                //Add item card to item list
                             for (QueryDocumentSnapshot document : task.getResult()) {
                                 Item item = new Item();
                                 item.setName(document.getString("name"));
@@ -90,19 +95,13 @@ public class BuyActivity extends AppCompatActivity{
                                 item.setPrice(priceHold);
 
                                 Items.add(item);
-                                String print = "" + Items.size();
-
                             }
                         } else {
-                            Item item = new Item();
-                            item.setName("Problem");
-
-                            Items.add(item);
+                            Log.d("Debug", "Problem");
                         }
                         setContentView(R.layout.activity_buy);
 
-                        String print = "" + Items.size();
-
+                        //Add item cards to recyclerView with adapter
                         recyclerView = (RecyclerView) findViewById(R.id.recycler_view);
                         recyclerView.setLayoutManager(hold);
                         adapter = new Adapter(Items);
@@ -114,7 +113,7 @@ public class BuyActivity extends AppCompatActivity{
                 });
         }
     }
-
+    //Create an options menu
     public boolean onCreateOptionsMenu(Menu menu) {
         MenuInflater inflater = getMenuInflater();
         inflater.inflate(R.menu.menu, menu); //your file name
@@ -126,29 +125,36 @@ public class BuyActivity extends AppCompatActivity{
      */
     public void menuSelect(MenuItem item) {
         int id = item.getItemId();
+        //Buy menu option
         if (id == R.id.buy) {
             final Intent intent = new Intent(this, BuyActivity.class);
             intent.putExtra("SEARCH_NAME", " ");
             startActivity(intent);
         }
+        //Sell menu option
         else if (id == R.id.sell) {
             setContentView(R.layout.activity_sell);
         }
+        //Chat menu option
         else if (id == R.id.chat) {
             Intent chatIntent = new Intent(this, ChatActivity.class);
             startActivity(chatIntent);
         }
+        //User menu option
         else if (id == R.id.user) {
             setContentView(R.layout.user);
         }
     }
+    //Functions for each button pushed
     public void buttonSelect(View item) {
         Log.d("Somewhat success", "In function");
         int id = item.getId();
+        //If filter button pushed, open up filter page
         if (id == R.id.filter) {
             Intent intent = new Intent(this, FilterActivity.class);
             startActivity(intent);
         }
+        //If search button clicked, reload buy page with new search term
         if(id == R.id.search){
             Intent intent = new Intent(this, BuyActivity.class);
             EditText editText = findViewById(R.id.searchInput);
