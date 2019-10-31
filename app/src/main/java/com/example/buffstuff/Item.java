@@ -9,7 +9,7 @@ public class Item {
         //empty constructor needed
     }
 
-    public Item(String name, Double price) {
+    public Item(String name, Double price, String id) {
         this.name = name;
         this.price = price;
         this.id = id;

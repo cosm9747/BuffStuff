@@ -28,7 +28,6 @@ public class DisplayItemActivity extends AppCompatActivity {
         Intent loadIntent = getIntent();
         //Find out what the item's id is
         final String id = loadIntent.getStringExtra("ID");
-        Log.d("working", "After");
         setContentView(R.layout.activity_display_item);
         db.collection("items")
                 .document(id)
@@ -43,9 +42,6 @@ public class DisplayItemActivity extends AppCompatActivity {
                             use.setText(document.getString("name"));
                             use = findViewById(R.id.price);
                             use.setText("Price: " + document.getDouble("price").toString());
-
-                            ImageView use = findViewById(R.id.image);
-                            use.setImageResource(R.); =
 
                         }
                         //If failed to access firebase
