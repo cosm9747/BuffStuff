@@ -16,8 +16,7 @@ import com.google.android.gms.tasks.OnCompleteListener;
 import com.google.android.gms.tasks.Task;
 import com.google.firebase.firestore.DocumentSnapshot;
 import com.google.firebase.firestore.FirebaseFirestore;
-import com.google.firebase.firestore.QueryDocumentSnapshot;
-import com.google.firebase.firestore.QuerySnapshot;
+import com.bumptech.glide.Glide;
 
 public class DisplayItemActivity extends AppCompatActivity {
     FirebaseFirestore db = FirebaseFirestore.getInstance();
@@ -42,7 +41,9 @@ public class DisplayItemActivity extends AppCompatActivity {
                             use.setText(document.getString("name"));
                             use = findViewById(R.id.price);
                             use.setText("Price: " + document.getDouble("price").toString());
-
+                            ImageView image = findViewById(R.id.image);
+                            String URL = document.getString("image");
+                            Glide.with(getApplicationContext()).load(URL).into(image);
                         }
                         //If failed to access firebase
                         else {

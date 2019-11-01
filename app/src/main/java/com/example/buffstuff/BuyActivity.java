@@ -96,30 +96,31 @@ public class BuyActivity extends AppCompatActivity{
                     @Override
                     public void onComplete(@NonNull Task<QuerySnapshot> task) {
                         if (task.isSuccessful()) {
-                            //For every item that matches search term
-                                //Create an item card, set its name and price
-                                //Add item card to item list
+                            //For every item in the database
+                            //Create an item card, set its name and price
+                            //Add item card to item list
                             for (QueryDocumentSnapshot document : task.getResult()) {
                                 Item item = new Item();
                                 item.setName(document.getString("name"));
-                                Double priceHold = (document.getDouble("price"));
-                                item.setPrice(priceHold);
+                                item.setPrice(document.getDouble("price"));
+                                item.setId(document.getId());
 
                                 Items.add(item);
                             }
-                        } else {
+                        }
+                        //If failed to access firebase
+                        else {
                             Log.d("Debug", "Problem");
                         }
+                        //Display buy activity on screen
                         setContentView(R.layout.activity_buy);
 
-                        //Add item cards to recyclerView with adapter
+                        //Set the adapter to add all the item cards to the recycler view
                         recyclerView = (RecyclerView) findViewById(R.id.recycler_view);
                         recyclerView.setLayoutManager(hold);
                         adapter = new Adapter(Items);
 
                         recyclerView.setAdapter(adapter);
-                        EditText editText = findViewById(R.id.searchInput);
-                        editText.setText(searchName);
                     }
                 });
         }
