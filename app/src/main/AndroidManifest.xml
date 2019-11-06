@@ -17,12 +17,14 @@
         <activity android:name=".BuyActivity"></activity>
         <activity android:name=".SignUpActivity"></activity>
         <activity
+            android:name=".DisplayItemActivity"
+            android:parentActivityName=".BuyActivity"></activity>
+        <activity
             android:name=".FilterActivity"
             android:parentActivityName=".BuyActivity"></activity>
         <activity android:name=".MainActivity">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
-
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
         </activity>
