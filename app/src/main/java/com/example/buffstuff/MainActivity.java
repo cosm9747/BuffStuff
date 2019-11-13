@@ -60,7 +60,6 @@ public class MainActivity extends AppCompatActivity {
         String password = editText2.getText().toString();
         if(email.length() != 0 && password.length() != 0){
             final Intent intent = new Intent(this, BuyActivity.class);
-            intent.putExtra("SEARCH_NAME", " ");
             mAuth.signInWithEmailAndPassword(email, password)
                     .addOnCompleteListener(this, new OnCompleteListener<AuthResult>() {
                         @Override
