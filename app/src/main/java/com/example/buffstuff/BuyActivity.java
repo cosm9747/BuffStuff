@@ -24,6 +24,8 @@ import java.util.ArrayList;
 
 //Load page that shows buy options
 public class BuyActivity extends AppCompatActivity{
+    //For prints
+    String TAG = "Testing";
     RecyclerView recyclerView;
     Adapter adapter;
     ArrayList<Item> Items = new ArrayList<Item>();
@@ -33,97 +35,90 @@ public class BuyActivity extends AppCompatActivity{
     protected void onCreate(Bundle savedInstanceState) {
         //When this function is called
         super.onCreate(savedInstanceState);
-        Intent loadIntent = getIntent();
+        final Intent loadIntent = getIntent();
         //Find out what the search term is
         // Get the extras (if there are any)
-        Bundle extras = loadIntent.getExtras();
+        final Bundle extras = loadIntent.getExtras();
         final String searchName;
-        if (extras == null) {
-            searchName = " ";
-            loadIntent.putExtra("SEARCH NAME", " ");
+        final Double minPrice;
+        final Double maxPrice;
+        //If there are extras, grab them all
+        if (extras != null) {
+            searchName = loadIntent.getStringExtra("SEARCH_NAME");
+            Log.d(TAG, "searchName is: ");
+            if(loadIntent.getStringExtra("MIN_PRICE")!= null){
+                minPrice = Double.parseDouble(loadIntent.getStringExtra("MIN_PRICE"));
+            }
+            else{
+                minPrice = null;
+            }
+            if(loadIntent.getStringExtra("MIN_PRICE")!= null){
+                maxPrice = Double.parseDouble(loadIntent.getStringExtra("MAX_PRICE"));
+            }
+            else{
+                maxPrice = null;
+            }
+            Log.d("Testing", "min price" + minPrice);
+            Log.d("Testing", "max price" + maxPrice);
         }
         else{
-            searchName = loadIntent.getStringExtra("SEARCH_NAME");
+            searchName = null;
+            minPrice = null;
+            maxPrice = null;
         }
         //Hold this context
-        //Find out what the searc term is
         final RecyclerView.LayoutManager hold = new LinearLayoutManager(this);
-        //If there was no search term...
-        if (searchName.equals(" ")){
-            //Get all items from firebase
-            db.collection("items")
-                .get()
-                .addOnCompleteListener(new OnCompleteListener<QuerySnapshot>() {
-                    @Override
-                    public void onComplete(@NonNull Task<QuerySnapshot> task) {
-                        //If succesfully accessed firebase
-                        if (task.isSuccessful()) {
-                            //For every item in the database
-                                //Create an item card, set its name and price
-                                //Add item card to item list
-                            for (QueryDocumentSnapshot document : task.getResult()) {
-                                Item item = new Item();
-                                item.setName(document.getString("name"));
-                                item.setPrice(document.getDouble("price"));
-                                item.setId(document.getId());
-
-                                Items.add(item);
-                            }
-                        }
-                        //If failed to access firebase
-                        else {
-                            Log.d("Debug", "Problem");
-                        }
-                        //Display buy activity on screen
-                        setContentView(R.layout.activity_buy);
-
-                        //Set the adapter to add all the item cards to the recycler view
-                        recyclerView = (RecyclerView) findViewById(R.id.recycler_view);
-                        recyclerView.setLayoutManager(hold);
-                        adapter = new Adapter(Items);
-
-                        recyclerView.setAdapter(adapter);
-                    }
-                });
-        }
-        //If a search term was entered
-        else{
-            //Search database for all items with name that has search term
-            db.collection("items")
-                .whereEqualTo("name", searchName)
-                .get()
-                .addOnCompleteListener(new OnCompleteListener<QuerySnapshot>() {
-                    @Override
-                    public void onComplete(@NonNull Task<QuerySnapshot> task) {
-                        if (task.isSuccessful()) {
-                            //For every item in the database
+        //Get all items from firebase
+        db.collection("items")
+            .get()
+            .addOnCompleteListener(new OnCompleteListener<QuerySnapshot>() {
+                @Override
+                public void onComplete(@NonNull Task<QuerySnapshot> task) {
+                    //If succesfully accessed firebase
+                    if (task.isSuccessful()) {
+                        //For every item in the database
                             //Create an item card, set its name and price
                             //Add item card to item list
-                            for (QueryDocumentSnapshot document : task.getResult()) {
-                                Item item = new Item();
-                                item.setName(document.getString("name"));
-                                item.setPrice(document.getDouble("price"));
-                                item.setId(document.getId());
-
+                        for (QueryDocumentSnapshot document : task.getResult()) {
+                            Item item = new Item();
+                            item.setName(document.getString("name"));
+                            item.setPrice(document.getDouble("price"));
+                            item.setId(document.getId());
+                            //If search name was entered, add to list iff name is equal
+                            //If search name not entered, add all items
+                            if(extras == null){
                                 Items.add(item);
                             }
+                            //If item meets all search criteria, then add it
+                            else if(searchName == null || (searchName.toLowerCase()).equals(item.getName().toLowerCase())) {
+                                if(minPrice == null || minPrice <= item.getPrice()) {
+                                    if(maxPrice == null || maxPrice >= item.getPrice()) {
+                                        Items.add(item);
+                                    }
+                                }
+                            }
                         }
-                        //If failed to access firebase
-                        else {
-                            Log.d("Debug", "Problem");
-                        }
-                        //Display buy activity on screen
-                        setContentView(R.layout.activity_buy);
-
-                        //Set the adapter to add all the item cards to the recycler view
-                        recyclerView = (RecyclerView) findViewById(R.id.recycler_view);
-                        recyclerView.setLayoutManager(hold);
-                        adapter = new Adapter(Items);
-
-                        recyclerView.setAdapter(adapter);
                     }
-                });
-        }
+                    //If failed to access firebase
+                    else {
+                        Log.d("Testing", "Problem");
+                    }
+                    //Display buy activity on screen
+                    setContentView(R.layout.activity_buy);
+                    if(searchName != null){
+                        //Put right text in search box
+                        EditText editText = (EditText)findViewById(R.id.searchInput);
+                        editText.setText(searchName);
+                    }
+
+                    //Set the adapter to add all the item cards to the recycler view
+                    recyclerView = (RecyclerView) findViewById(R.id.recycler_view);
+                    recyclerView.setLayoutManager(hold);
+                    adapter = new Adapter(Items);
+
+                    recyclerView.setAdapter(adapter);
+                }
+            });
     }
     //Create an options menu
     public boolean onCreateOptionsMenu(Menu menu) {
@@ -140,7 +135,6 @@ public class BuyActivity extends AppCompatActivity{
         //Buy menu option
         if (id == R.id.buy) {
             final Intent intent = new Intent(this, BuyActivity.class);
-            intent.putExtra("SEARCH_NAME", " ");
             startActivity(intent);
         }
         //Sell menu option
@@ -163,6 +157,9 @@ public class BuyActivity extends AppCompatActivity{
         //If filter button pushed, open up filter page
         if (id == R.id.filter) {
             Intent intent = new Intent(this, FilterActivity.class);
+            EditText editText = findViewById(R.id.searchInput);
+            String search = editText.getText().toString();
+            intent.putExtra("SEARCH_NAME", search);
             startActivity(intent);
         }
         //If search button clicked, reload buy page with new search term
