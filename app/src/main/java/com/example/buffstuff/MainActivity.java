@@ -8,6 +8,7 @@ import android.os.Bundle;
 import android.util.Log;
 import android.view.View;
 import android.widget.EditText;
+import android.widget.ProgressBar;
 import android.widget.Toast;
 
 import com.google.android.gms.tasks.OnCompleteListener;
@@ -19,8 +20,6 @@ import com.google.firebase.firestore.FirebaseFirestore;
 
 public class MainActivity extends AppCompatActivity {
     private FirebaseAuth mAuth;
-    //    private DatabaseReference mDatabase;
-    FirebaseFirestore db = FirebaseFirestore.getInstance();
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -35,9 +34,6 @@ public class MainActivity extends AppCompatActivity {
     @Override
     public void onStart() {
         super.onStart();
-        // Check if user is signed in (non-null) and update UI accordingly.
-//        FirebaseUser currentUser = mAuth.getCurrentUser();
-        //updateUI(currentUser);
         FirebaseUser currentUser = mAuth.getCurrentUser();
         if (currentUser != null){
             Intent intent = new Intent(this, BuyActivity.class);
@@ -59,8 +55,8 @@ public class MainActivity extends AppCompatActivity {
         String email = editText.getText().toString();
         String password = editText2.getText().toString();
         if(email.length() != 0 && password.length() != 0){
+            findViewById(R.id.progressBar).setVisibility(View.VISIBLE);
             final Intent intent = new Intent(this, BuyActivity.class);
-            intent.putExtra("SEARCH_NAME", " ");
             mAuth.signInWithEmailAndPassword(email, password)
                     .addOnCompleteListener(this, new OnCompleteListener<AuthResult>() {
                         @Override
