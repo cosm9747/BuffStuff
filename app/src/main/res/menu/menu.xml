@@ -17,4 +17,8 @@
         android:id="@+id/chat"
         android:title="Chat"
         android:onClick="menuSelect"/>
+    <item
+        android:id="@+id/signout"
+        android:onClick="menuSelect"
+        android:title="Sign Out" />
 </menu>
