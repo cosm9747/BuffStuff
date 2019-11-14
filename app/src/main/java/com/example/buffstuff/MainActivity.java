@@ -8,6 +8,7 @@ import android.os.Bundle;
 import android.util.Log;
 import android.view.View;
 import android.widget.EditText;
+import android.widget.ProgressBar;
 import android.widget.Toast;
 
 import com.google.android.gms.tasks.OnCompleteListener;
@@ -19,8 +20,6 @@ import com.google.firebase.firestore.FirebaseFirestore;
 
 public class MainActivity extends AppCompatActivity {
     private FirebaseAuth mAuth;
-    //    private DatabaseReference mDatabase;
-    FirebaseFirestore db = FirebaseFirestore.getInstance();
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -35,9 +34,11 @@ public class MainActivity extends AppCompatActivity {
     @Override
     public void onStart() {
         super.onStart();
-        // Check if user is signed in (non-null) and update UI accordingly.
-//        FirebaseUser currentUser = mAuth.getCurrentUser();
-        //updateUI(currentUser);
+        FirebaseUser currentUser = mAuth.getCurrentUser();
+        if (currentUser != null){
+            Intent intent = new Intent(this, BuyActivity.class);
+            startActivity(intent);
+        }
     }
 
     public void goToSignUp(View view) {
@@ -53,27 +54,32 @@ public class MainActivity extends AppCompatActivity {
         EditText editText2 = (EditText) findViewById(R.id.editText2);
         String email = editText.getText().toString();
         String password = editText2.getText().toString();
+        if(email.length() != 0 && password.length() != 0){
+            findViewById(R.id.progressBar).setVisibility(View.VISIBLE);
+            final Intent intent = new Intent(this, BuyActivity.class);
+            mAuth.signInWithEmailAndPassword(email, password)
+                    .addOnCompleteListener(this, new OnCompleteListener<AuthResult>() {
+                        @Override
+                        public void onComplete(@NonNull Task<AuthResult> task) {
+                            if (task.isSuccessful()) {
+                                // Sign in success, update UI with the signed-in user's information
+                                Log.d("Success", "signInWithEmail:success");
+                                FirebaseUser user = mAuth.getCurrentUser();
+                                startActivity(intent);
+                            } else {
+                                // If sign in fails, display a message to the user.
+                                Log.w("Error", "signInWithEmail:failure", task.getException());
+                                Toast.makeText(MainActivity.this, "Invalid Email or Password.",
+                                        Toast.LENGTH_SHORT).show();
+                            }
 
-
-        final Intent intent = new Intent(this, BuyActivity.class);
-        mAuth.signInWithEmailAndPassword(email, password)
-                .addOnCompleteListener(this, new OnCompleteListener<AuthResult>() {
-                    @Override
-                    public void onComplete(@NonNull Task<AuthResult> task) {
-                        if (task.isSuccessful()) {
-                            // Sign in success, update UI with the signed-in user's information
-                            Log.d("Success", "signInWithEmail:success");
-                            FirebaseUser user = mAuth.getCurrentUser();
-                            startActivity(intent);
-                        } else {
-                            // If sign in fails, display a message to the user.
-                            Log.w("Error", "signInWithEmail:failure", task.getException());
-                            Toast.makeText(MainActivity.this, "Invalid Email or Password.",
-                                    Toast.LENGTH_SHORT).show();
                         }
-
-                    }
-                });
+                    });
+        }
+        else {
+            Toast.makeText(MainActivity.this, "Invalid Email or Password.",
+                    Toast.LENGTH_SHORT).show();
+        }
     }
 
 }
