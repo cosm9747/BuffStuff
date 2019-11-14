@@ -16,6 +16,7 @@ import android.widget.EditText;
 
 import com.google.android.gms.tasks.OnCompleteListener;
 import com.google.android.gms.tasks.Task;
+import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.firestore.FirebaseFirestore;
 import com.google.firebase.firestore.QueryDocumentSnapshot;
 import com.google.firebase.firestore.QuerySnapshot;
@@ -149,6 +150,12 @@ public class BuyActivity extends AppCompatActivity{
         //User menu option
         else if (id == R.id.user) {
             setContentView(R.layout.user);
+        }
+        else if (id == R.id.signout) {
+            FirebaseAuth mAuth = FirebaseAuth.getInstance();
+            mAuth.signOut();
+            Intent intent = new Intent(this, MainActivity.class);
+            startActivity(intent);
         }
     }
     //Functions for each button pushed
