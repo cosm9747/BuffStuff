@@ -37,10 +37,19 @@ public class DisplayItemActivity extends AppCompatActivity {
                         //If succesfully accessed firebase
                         DocumentSnapshot document = task.getResult();
                         if (document.exists()) {
+                            //Set name
                             TextView use = findViewById(R.id.name);
                             use.setText(document.getString("name"));
+                            //Set price
                             use = findViewById(R.id.price);
                             use.setText("Price: " + document.getDouble("price").toString());
+                            //Set Condition
+                            use = findViewById(R.id.condition);
+                            use.setText("Condition: " + document.getString("condition"));
+                            //Set Category
+                            use = findViewById(R.id.category);
+                            use.setText("Category: " + document.getString("category"));
+                            //Set image
                             ImageView image = findViewById(R.id.image);
                             String URL = document.getString("image");
                             Glide.with(getApplicationContext()).load(URL).into(image);
