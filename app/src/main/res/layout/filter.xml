@@ -8,7 +8,7 @@
     android:orientation="vertical">
 
     <CheckBox
-        android:id="@+id/checkBox5"
+        android:id="@+id/Textbook"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:text="Textbook"
@@ -16,12 +16,12 @@
         app:layout_constraintStart_toEndOf="@+id/condition2" />
 
     <CheckBox
-        android:id="@+id/checkBox7"
+        android:id="@+id/Excellent"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:text="Excellent"
         app:layout_constraintStart_toEndOf="@+id/condition"
-        app:layout_constraintTop_toBottomOf="@+id/checkBox" />
+        app:layout_constraintTop_toBottomOf="@+id/Poor" />
 
     <TextView
         android:id="@+id/condition2"
@@ -30,24 +30,24 @@
         android:layout_marginTop="20dp"
         android:text="Category"
         android:textSize="24sp"
-        app:layout_constraintTop_toBottomOf="@+id/checkBox7"
+        app:layout_constraintTop_toBottomOf="@+id/Excellent"
         tools:layout_editor_absoluteX="0dp" />
 
     <CheckBox
-        android:id="@+id/checkBox8"
+        android:id="@+id/Acceptable"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:text="Acceptable"
-        app:layout_constraintBottom_toBottomOf="@+id/checkBox"
-        app:layout_constraintStart_toEndOf="@+id/checkBox" />
+        app:layout_constraintBottom_toBottomOf="@+id/Poor"
+        app:layout_constraintStart_toEndOf="@+id/Poor" />
 
     <CheckBox
-        android:id="@+id/checkBox6"
+        android:id="@+id/Electronic"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:text="Electronics"
-        app:layout_constraintBottom_toBottomOf="@+id/checkBox2"
-        app:layout_constraintStart_toEndOf="@+id/checkBox2" />
+        android:text="Electronic"
+        app:layout_constraintBottom_toBottomOf="@+id/Furniture"
+        app:layout_constraintStart_toEndOf="@+id/Furniture" />
 
     <EditText
         android:id="@+id/priceMax"
@@ -84,7 +84,7 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_marginTop="20dp"
-        android:text="Price:"
+        android:text="Price: $"
         android:textSize="24sp"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/searchInput" />
@@ -113,13 +113,14 @@
         android:id="@+id/dash"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:text="-"
+        android:text="- $"
+        android:textSize="24sp"
         app:layout_constraintBottom_toBottomOf="@+id/Price"
         app:layout_constraintStart_toEndOf="@+id/priceMin"
         app:layout_constraintTop_toTopOf="@+id/Price" />
 
     <CheckBox
-        android:id="@+id/checkBox"
+        android:id="@+id/Poor"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:text="Poor"
@@ -127,28 +128,28 @@
         app:layout_constraintStart_toEndOf="@+id/condition" />
 
     <CheckBox
-        android:id="@+id/checkBox2"
+        android:id="@+id/Furniture"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:text="Furniture"
-        app:layout_constraintBottom_toBottomOf="@+id/checkBox5"
-        app:layout_constraintStart_toEndOf="@+id/checkBox5" />
+        app:layout_constraintBottom_toBottomOf="@+id/Textbook"
+        app:layout_constraintStart_toEndOf="@+id/Textbook" />
 
     <CheckBox
-        android:id="@+id/checkBox3"
+        android:id="@+id/Good"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:text="Good"
-        app:layout_constraintBottom_toBottomOf="@+id/checkBox8"
-        app:layout_constraintStart_toEndOf="@+id/checkBox8" />
+        app:layout_constraintBottom_toBottomOf="@+id/Acceptable"
+        app:layout_constraintStart_toEndOf="@+id/Acceptable" />
 
     <CheckBox
-        android:id="@+id/checkBox4"
+        android:id="@+id/Other"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:text="Other"
         app:layout_constraintStart_toEndOf="@+id/condition2"
-        app:layout_constraintTop_toBottomOf="@+id/checkBox5" />
+        app:layout_constraintTop_toBottomOf="@+id/Textbook" />
 
     <TextView
         android:id="@+id/condition"

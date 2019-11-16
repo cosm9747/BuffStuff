@@ -6,8 +6,6 @@ import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
 import android.content.Intent;
-import android.graphics.Color;
-import android.graphics.drawable.ColorDrawable;
 import android.os.Bundle;
 import android.util.Log;
 import android.view.Menu;
@@ -45,29 +43,70 @@ public class BuyActivity extends AppCompatActivity{
         final String searchName;
         final Double minPrice;
         final Double maxPrice;
+        final ArrayList<String> condition;
+        final ArrayList<String> category;
         //If there are extras, grab them all
         if (extras != null) {
+            //Search name
             searchName = loadIntent.getStringExtra("SEARCH_NAME");
-            Log.d(TAG, "searchName is: ");
+            //Min price
             if(loadIntent.getStringExtra("MIN_PRICE")!= null){
                 minPrice = Double.parseDouble(loadIntent.getStringExtra("MIN_PRICE"));
             }
             else{
                 minPrice = null;
             }
-            if(loadIntent.getStringExtra("MIN_PRICE")!= null){
+            //Max price
+            if(loadIntent.getStringExtra("MAX_PRICE")!= null){
                 maxPrice = Double.parseDouble(loadIntent.getStringExtra("MAX_PRICE"));
             }
             else{
                 maxPrice = null;
             }
-            Log.d("Testing", "min price" + minPrice);
-            Log.d("Testing", "max price" + maxPrice);
+            //Condition
+            if(loadIntent.getStringArrayListExtra("CONDITION") != null){
+                Log.d(TAG, "There is condition");
+                condition = loadIntent.getStringArrayListExtra("CONDITION");
+            }
+            else{
+                condition = new ArrayList<String>();
+                condition.add("Poor");
+                condition.add("Acceptable");
+                condition.add("Good");
+                condition.add("Excellent");
+            }
+            //Condition
+            if(loadIntent.getStringArrayListExtra("CATEGORY") != null){
+                category = loadIntent.getStringArrayListExtra("CATEGORY");
+            }
+            else{
+                category = new ArrayList<String>();
+                category.add("Textbook");
+                category.add("Furniture");
+                category.add("Electronic");
+                category.add("Other");
+            }
         }
+        //If no intents placed, put in default values
         else{
+            //Search name
             searchName = null;
+            //Min price
             minPrice = null;
+            //Max price
             maxPrice = null;
+            //Condition
+            condition = new ArrayList<String>();
+            condition.add("Poor");
+            condition.add("Acceptable");
+            condition.add("Good");
+            condition.add("Excellent");
+            //Category
+            category = new ArrayList<String>();
+            category.add("Textbook");
+            category.add("Furniture");
+            category.add("Electronic");
+            category.add("Other");
         }
         //Hold this context
         final RecyclerView.LayoutManager hold = new LinearLayoutManager(this);
@@ -86,7 +125,10 @@ public class BuyActivity extends AppCompatActivity{
                             Item item = new Item();
                             item.setName(document.getString("name"));
                             item.setPrice(document.getDouble("price"));
+                            item.setCondition(document.getString("condition"));
+                            item.setCategory(document.getString("category"));
                             item.setId(document.getId());
+
                             //If search name was entered, add to list iff name is equal
                             //If search name not entered, add all items
                             if(extras == null){
@@ -96,7 +138,11 @@ public class BuyActivity extends AppCompatActivity{
                             else if(searchName == null || (searchName.toLowerCase()).equals(item.getName().toLowerCase())) {
                                 if(minPrice == null || minPrice <= item.getPrice()) {
                                     if(maxPrice == null || maxPrice >= item.getPrice()) {
-                                        Items.add(item);
+                                        if(condition.contains(item.getCondition())) {
+                                            if (category.contains((item.getCategory()))) {
+                                                Items.add(item);
+                                            }
+                                        }
                                     }
                                 }
                             }
