@@ -211,7 +211,9 @@ public class BuyActivity extends AppCompatActivity{
         int id = item.getId();
         //If filter button pushed, open up filter page
         if (id == R.id.filter) {
+            //Create intent
             Intent intent = new Intent(this, FilterActivity.class);
+            //Pass SEARCH_NAME
             EditText editText = findViewById(R.id.searchInput);
             String search = editText.getText().toString();
             intent.putExtra("SEARCH_NAME", search);
