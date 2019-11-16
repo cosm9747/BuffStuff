@@ -7,15 +7,18 @@ import android.view.Menu;
 import android.view.MenuInflater;
 import android.view.MenuItem;
 import android.view.View;
+import android.widget.CheckBox;
 import android.widget.EditText;
 
 import androidx.appcompat.app.AppCompatActivity;
+
+import java.util.ArrayList;
+import java.util.List;
 
 public class FilterActivity extends AppCompatActivity {
     String TAG = "Testing";
     @Override
     protected void onCreate(Bundle savedInstanceState) {
-        Log.d("Testing", "onCreate: filter");
         //When this function is called load up sent intent
         super.onCreate(savedInstanceState);
         Intent loadIntent = getIntent();
@@ -73,10 +76,8 @@ public class FilterActivity extends AppCompatActivity {
     //Functions for each button pushed
     public void buttonSelect(View item) {
         int id = item.getId();
-        Log.d("Testing", "function called");
         //If filter button pushed, open up filter page
         if (id == R.id.applyFilter) {
-            Log.d("Testing", "register intent");
             Intent intent = new Intent(this, BuyActivity.class);
             //Send search term
             EditText editText = findViewById(R.id.searchInput);
@@ -97,9 +98,53 @@ public class FilterActivity extends AppCompatActivity {
             if(!data.equals("")){
                 intent.putExtra("MAX_PRICE", data);
             }
+            //Construct array for condition and if anything checked put as intent
+            CheckBox Poor = (CheckBox) findViewById(R.id.Poor);
+            CheckBox Acceptable = (CheckBox) findViewById(R.id.Acceptable);
+            CheckBox Good = (CheckBox) findViewById(R.id.Good);
+            CheckBox Excellent = (CheckBox) findViewById(R.id.Excellent);
+            Log.d(TAG, Poor.isChecked() + ": poor");
+            if(Poor.isChecked() || Acceptable.isChecked() || Good.isChecked() || Excellent.isChecked()){
+                List condition = new ArrayList<String>();
+                if(Poor.isChecked()){
+                    Log.d(TAG, "Poor was checked");
+                    condition.add("Poor");
+                }
+                if(Acceptable.isChecked()){
+                    condition.add("Acceptable");
+                }
+                if(Good.isChecked()){
+                    condition.add("Good");
+                }
+                if(Excellent.isChecked()){
+                    condition.add("Excellent");
+                }
+                intent.putStringArrayListExtra("CONDITION", (ArrayList<String>)condition);
+                Log.d(TAG, "put condition: " + condition);
+            }
+            //Construct array for category and if anything checked put as intent
+            CheckBox Textbook = (CheckBox) findViewById(R.id.Textbook);
+            CheckBox Furniture = (CheckBox) findViewById(R.id.Furniture);
+            CheckBox Electronic = (CheckBox) findViewById(R.id.Electronic);
+            CheckBox Other = (CheckBox) findViewById(R.id.Other);
+            if(Textbook.isChecked() || Furniture.isChecked() || Electronic.isChecked() || Other.isChecked()){
+                List category = new ArrayList<String>();
+                if(Textbook.isChecked()){
+                    category.add("Textbook");
+                }
+                if(Furniture.isChecked()){
+                    category.add("Furniture");
+                }
+                if(Electronic.isChecked()){
+                    category.add("Electronic");
+                }
+                if(Other.isChecked()){
+                    category.add("Other");
+                }
+                intent.putStringArrayListExtra("CATEGORY", (ArrayList<String>)category);
+            }
             //Send back to buy
             startActivity(intent);
-
         }
     }
 }
