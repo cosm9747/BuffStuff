@@ -25,11 +25,17 @@ public class SellActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_sell);
     }
-
+    ///Takes user to form to create new item
     public void goToUpload(View view) {
         Intent intent = new Intent(this, UploadActivity.class);
         startActivity(intent);
     }
+
+    public void goToViewItems(View view){
+        Intent intent = new Intent(this, ViewItemsActivity.class);
+        startActivity(intent);
+    }
+
 
     //Create an options menu
     public boolean onCreateOptionsMenu(Menu menu) {
