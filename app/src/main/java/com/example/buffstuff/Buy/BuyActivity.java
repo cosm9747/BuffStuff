@@ -1,4 +1,4 @@
-package com.example.buffstuff;
+package com.example.buffstuff.Buy;
 
 import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
@@ -14,6 +14,11 @@ import android.view.MenuItem;
 import android.view.View;
 import android.widget.EditText;
 
+import com.example.buffstuff.Chat.ChatActivity;
+import com.example.buffstuff.Login.MainActivity;
+import com.example.buffstuff.R;
+import com.example.buffstuff.Sell.SellActivity;
+import com.example.buffstuff.UserActivity;
 import com.google.android.gms.tasks.OnCompleteListener;
 import com.google.android.gms.tasks.Task;
 import com.google.firebase.auth.FirebaseAuth;
@@ -188,7 +193,8 @@ public class BuyActivity extends AppCompatActivity{
         }
         //Sell menu option
         else if (id == R.id.sell) {
-            setContentView(R.layout.activity_sell);
+            Intent intent = new Intent(this, SellActivity.class);
+            startActivity(intent);
         }
         //Chat menu option
         else if (id == R.id.chat) {
@@ -197,7 +203,8 @@ public class BuyActivity extends AppCompatActivity{
         }
         //User menu option
         else if (id == R.id.user) {
-            setContentView(R.layout.user);
+            Intent intent = new Intent(this, UserActivity.class);
+            startActivity(intent);
         }
         else if (id == R.id.signout) {
             FirebaseAuth mAuth = FirebaseAuth.getInstance();
