@@ -1,4 +1,4 @@
-package com.example.buffstuff;
+package com.example.buffstuff.Chat;
 
 import java.util.Date;
 

@@ -1,4 +1,4 @@
-package com.example.buffstuff;
+package com.example.buffstuff.Buy;
 
 import android.content.Intent;
 import android.os.Bundle;
@@ -11,6 +11,14 @@ import android.widget.CheckBox;
 import android.widget.EditText;
 
 import androidx.appcompat.app.AppCompatActivity;
+
+import com.example.buffstuff.Buy.BuyActivity;
+import com.example.buffstuff.Chat.ChatActivity;
+import com.example.buffstuff.Login.MainActivity;
+import com.example.buffstuff.R;
+import com.example.buffstuff.Sell.SellActivity;
+import com.example.buffstuff.UserActivity;
+import com.google.firebase.auth.FirebaseAuth;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -58,18 +66,31 @@ public class FilterActivity extends AppCompatActivity {
      */
     public void menuSelect(MenuItem item) {
         int id = item.getItemId();
+        //Buy menu option
         if (id == R.id.buy) {
-            Intent intent = new Intent(this, BuyActivity.class);
+            final Intent intent = new Intent(this, BuyActivity.class);
             startActivity(intent);
         }
+        //Sell menu option
         else if (id == R.id.sell) {
-            setContentView(R.layout.activity_sell);
+            Intent intent = new Intent(this, SellActivity.class);
+            startActivity(intent);
         }
+        //Chat menu option
         else if (id == R.id.chat) {
-            setContentView(R.layout.activity_chat);
+            Intent chatIntent = new Intent(this, ChatActivity.class);
+            startActivity(chatIntent);
         }
+        //User menu option
         else if (id == R.id.user) {
-            setContentView(R.layout.user);
+            Intent intent = new Intent(this, UserActivity.class);
+            startActivity(intent);
+        }
+        else if (id == R.id.signout) {
+            FirebaseAuth mAuth = FirebaseAuth.getInstance();
+            mAuth.signOut();
+            Intent intent = new Intent(this, MainActivity.class);
+            startActivity(intent);
         }
     }
 
