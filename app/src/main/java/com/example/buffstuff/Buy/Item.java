@@ -1,4 +1,4 @@
-package com.example.buffstuff;
+package com.example.buffstuff.Buy;
 
 //A class for each item; used to display in buy page
 public class Item {

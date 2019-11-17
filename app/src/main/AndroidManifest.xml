@@ -13,18 +13,24 @@
         android:roundIcon="@mipmap/ic_launcher_round"
         android:supportsRtl="true"
         android:theme="@style/AppTheme">
-        <activity android:name=".ChatActivity"></activity>
-        <activity android:name=".BuyActivity"></activity>
-        <activity android:name=".SignUpActivity"></activity>
+        <activity android:name=".UserActivity"></activity>
+        <activity android:name=".Sell.SellActivity" />
         <activity
-            android:name=".DisplayItemActivity"
-            android:parentActivityName=".BuyActivity"></activity>
+            android:name=".Sell.UploadActivity"
+            android:parentActivityName=".Sell.SellActivity" />
+        <activity android:name=".Chat.ChatActivity" />
+        <activity android:name=".Buy.BuyActivity" />
+        <activity android:name=".Login.SignUpActivity" />
         <activity
-            android:name=".FilterActivity"
-            android:parentActivityName=".BuyActivity"></activity>
-        <activity android:name=".MainActivity">
+            android:name=".Buy.DisplayItemActivity"
+            android:parentActivityName=".Buy.BuyActivity" />
+        <activity
+            android:name=".Buy.FilterActivity"
+            android:parentActivityName=".Buy.BuyActivity" />
+        <activity android:name=".Login.MainActivity">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
+
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
         </activity>
