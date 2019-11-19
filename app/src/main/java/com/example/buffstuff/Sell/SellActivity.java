@@ -5,9 +5,7 @@ import androidx.appcompat.app.AppCompatActivity;
 import com.example.buffstuff.Buy.BuyActivity;
 import com.example.buffstuff.Chat.ChatActivity;
 import com.example.buffstuff.Login.MainActivity;
-import com.example.buffstuff.UserActivity;
-import com.google.android.gms.tasks.OnCompleteListener;
-import androidx.appcompat.widget.AppCompatButton;
+import com.example.buffstuff.User.UserActivity;
 
 import android.content.Intent;
 import android.os.Bundle;

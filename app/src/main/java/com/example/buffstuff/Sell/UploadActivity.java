@@ -26,7 +26,7 @@ import java.util.Map;
 public class UploadActivity extends AppCompatActivity {
 
     private FirebaseAuth mAuth;
-    FirebaseFirestore db = FirebaseFirestore.getInstance();
+    private FirebaseFirestore db = FirebaseFirestore.getInstance();
 
 
     @Override
