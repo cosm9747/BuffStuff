@@ -18,6 +18,12 @@
         <activity
             android:name=".Sell.UploadActivity"
             android:parentActivityName=".Sell.SellActivity" />
+        <activity
+            android:name=".Sell.SellDisplayItemActivity"
+            android:parentActivityName=".Sell.ViewItemsActivity" />
+        <activity
+            android:name=".Sell.ViewItemsActivity"
+            android:parentActivityName=".Sell.SellActivity" />
         <activity android:name=".Chat.ChatActivity" />
         <activity android:name=".Buy.BuyActivity" />
         <activity android:name=".Login.SignUpActivity" />

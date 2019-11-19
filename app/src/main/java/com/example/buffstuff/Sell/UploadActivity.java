@@ -10,8 +10,10 @@ import android.view.View;
 import android.widget.Button;
 import android.widget.EditText;
 import android.widget.Spinner;
+import android.widget.Toast;
 
 import com.example.buffstuff.Buy.BuyActivity;
+import com.example.buffstuff.Login.SignUpActivity;
 import com.example.buffstuff.R;
 import com.google.android.gms.tasks.OnFailureListener;
 import com.google.android.gms.tasks.OnSuccessListener;
@@ -26,8 +28,8 @@ import java.util.Map;
 public class UploadActivity extends AppCompatActivity {
 
     private FirebaseAuth mAuth;
-    private FirebaseFirestore db = FirebaseFirestore.getInstance();
-
+    FirebaseFirestore db = FirebaseFirestore.getInstance();
+    String TAG = "Testing";
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -47,38 +49,47 @@ public class UploadActivity extends AppCompatActivity {
         EditText p = (EditText) findViewById(R.id.price);
         Spinner con = (Spinner) findViewById(R.id.condition_spinner);
         Spinner cat = (Spinner) findViewById(R.id.category_spinner);
-        String inputName = n.getText().toString();
-        Double price = Double.parseDouble(p.getText().toString());
-        String condition = con.getSelectedItem().toString();
-        String category = cat.getSelectedItem().toString();
-        mAuth = FirebaseAuth.getInstance();
-        FirebaseUser currentUser = mAuth.getCurrentUser();
-        String userId = currentUser.getUid();
+        //If some information left unfilled, make them fill
+        if(n.getText().toString().equals("") || p.getText().toString().equals("") || con.getSelectedItem().toString().equals("Select") || cat.getSelectedItem().toString().equals("Select")){
+            Log.d(TAG, "goToSell: not all things entered");
+            Toast.makeText(this, "Please fill out all categories",
+                    Toast.LENGTH_SHORT).show();
+        }
+        else{
+            String inputName = n.getText().toString();
+            Double price = Double.parseDouble(p.getText().toString());
+            String condition = con.getSelectedItem().toString();
+            String category = cat.getSelectedItem().toString();
+            mAuth = FirebaseAuth.getInstance();
+            FirebaseUser currentUser = mAuth.getCurrentUser();
+            String userId = currentUser.getUid();
 
-        Map<String, Object> item = new HashMap<>();
+            Map<String, Object> item = new HashMap<>();
 
-        item.put("name", inputName);
-        item.put("price", price);
-        item.put("condition", condition);
-        item.put("category", category);
-        item.put("user", userId);
+            item.put("name", inputName);
+            item.put("price", price);
+            item.put("condition", condition);
+            item.put("category", category);
+            item.put("user", userId);
 
-        final Intent intent = new Intent(this, SellActivity.class);
+            final Intent intent = new Intent(this, SellActivity.class);
 
-        db.collection("items")
-                .add(item)
-                .addOnSuccessListener(new OnSuccessListener<DocumentReference>() {
-                    @Override
-                    public void onSuccess(DocumentReference documentReference) {
-                        startActivity(intent);
-                        Log.d("dbSuccess", "DocumentSnapshot written with ID: " + documentReference.getId());
-                    }
-                })
-                .addOnFailureListener(new OnFailureListener() {
-                    @Override
-                    public void onFailure(@NonNull Exception e) {
-                        Log.w("dbFailure", "Error adding document", e);
-                    }
-                });
+            db.collection("items")
+                    .add(item)
+                    .addOnSuccessListener(new OnSuccessListener<DocumentReference>() {
+                        @Override
+                        public void onSuccess(DocumentReference documentReference) {
+                            startActivity(intent);
+                            Log.d("dbSuccess", "DocumentSnapshot written with ID: " + documentReference.getId());
+                        }
+                    })
+                    .addOnFailureListener(new OnFailureListener() {
+                        @Override
+                        public void onFailure(@NonNull Exception e) {
+                            Log.w("dbFailure", "Error adding document", e);
+                        }
+                    });
+        }
+
     }
 }

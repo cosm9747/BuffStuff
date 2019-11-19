@@ -140,7 +140,7 @@ public class BuyActivity extends AppCompatActivity{
                                 Items.add(item);
                             }
                             //If item meets all search criteria, then add it
-                            else if(searchName == null || (searchName.toLowerCase()).equals(item.getName().toLowerCase())) {
+                            else if(searchName == null || (item.getName().toLowerCase()).contains(searchName.toLowerCase())) {
                                 if(minPrice == null || minPrice <= item.getPrice()) {
                                     if(maxPrice == null || maxPrice >= item.getPrice()) {
                                         if(condition.contains(item.getCondition())) {

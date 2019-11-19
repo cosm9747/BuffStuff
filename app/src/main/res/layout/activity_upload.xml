@@ -12,8 +12,8 @@
         android:layout_height="wrap_content"
         android:layout_marginStart="16dp"
         android:layout_marginLeft="16dp"
-        android:layout_marginTop="144dp"
-        android:text="Input Name:"
+        android:layout_marginTop="16dp"
+        android:text="Item Name:"
         android:textSize="30sp"
         app:layout_constraintEnd_toStartOf="@+id/inputName"
         app:layout_constraintHorizontal_bias="0.0"
@@ -23,12 +23,12 @@
     <TextView
         android:id="@+id/textView4"
         android:layout_width="163dp"
-        android:layout_height="0dp"
-        android:layout_marginTop="8dp"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="16dp"
+        android:layout_marginLeft="16dp"
+        android:layout_marginTop="16dp"
         android:text="Condition:"
         android:textSize="30sp"
-        app:layout_constraintEnd_toStartOf="@+id/condition_spinner"
-        app:layout_constraintHorizontal_bias="0.47"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/textView3" />
 
@@ -38,7 +38,7 @@
         android:layout_height="0dp"
         android:layout_marginStart="16dp"
         android:layout_marginLeft="16dp"
-        android:layout_marginTop="15dp"
+        android:layout_marginTop="16dp"
         android:text="Price:     $"
         android:textSize="30sp"
         app:layout_constraintEnd_toStartOf="@+id/price"
@@ -49,65 +49,56 @@
     <TextView
         android:id="@+id/textView5"
         android:layout_width="164dp"
-        android:layout_height="63dp"
+        android:layout_height="wrap_content"
         android:layout_marginStart="16dp"
         android:layout_marginLeft="16dp"
-        android:layout_marginTop="2dp"
+        android:layout_marginTop="16dp"
         android:text="Category:"
         android:textSize="30sp"
-        app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/textView4"
-        app:layout_constraintVertical_bias="0.077" />
+        app:layout_constraintTop_toBottomOf="@+id/textView4" />
 
     <EditText
         android:id="@+id/inputName"
         android:layout_width="0dp"
         android:layout_height="wrap_content"
-        android:layout_marginTop="144dp"
         android:layout_marginEnd="4dp"
         android:layout_marginRight="4dp"
         android:ems="10"
         android:inputType="textPersonName"
         app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintTop_toTopOf="parent" />
+        app:layout_constraintTop_toTopOf="@+id/textView" />
 
     <EditText
         android:id="@+id/price"
         android:layout_width="172dp"
         android:layout_height="39dp"
-        android:layout_marginTop="12dp"
         android:layout_marginEnd="60dp"
         android:layout_marginRight="60dp"
         android:ems="10"
         android:inputType="number"
         app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/inputName" />
+        app:layout_constraintTop_toTopOf="@+id/textView3" />
 
     <Spinner
         android:id="@+id/condition_spinner"
         android:layout_width="174dp"
-        android:layout_height="35dp"
-        android:layout_marginTop="12dp"
-        android:layout_marginEnd="40dp"
-        android:layout_marginRight="40dp"
+        android:layout_height="wrap_content"
+        android:layout_marginLeft="8dp"
         android:entries="@array/condition_array"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/price" />
+        app:layout_constraintBottom_toBottomOf="@+id/textView4"
+        app:layout_constraintStart_toEndOf="@+id/textView4"
+        app:layout_constraintTop_toTopOf="@+id/textView4" />
 
     <Spinner
         android:id="@+id/category_spinner"
         android:layout_width="172dp"
         android:layout_height="wrap_content"
-        android:layout_marginTop="34dp"
-        android:layout_marginEnd="44dp"
-        android:layout_marginRight="44dp"
-        android:layout_marginBottom="400dp"
+        android:layout_marginLeft="8dp"
         android:entries="@array/category_array"
-        app:layout_constraintBottom_toBottomOf="parent"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/condition_spinner"
-        app:layout_constraintVertical_bias="0.0" />
+        app:layout_constraintBottom_toBottomOf="@+id/textView5"
+        app:layout_constraintStart_toEndOf="@+id/textView5"
+        app:layout_constraintTop_toTopOf="@+id/textView5" />
 
     <Button
         android:id="@+id/uploadButton"
