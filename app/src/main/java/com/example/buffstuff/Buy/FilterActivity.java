@@ -12,12 +12,11 @@ import android.widget.EditText;
 
 import androidx.appcompat.app.AppCompatActivity;
 
-import com.example.buffstuff.Buy.BuyActivity;
 import com.example.buffstuff.Chat.ChatActivity;
 import com.example.buffstuff.Login.MainActivity;
 import com.example.buffstuff.R;
 import com.example.buffstuff.Sell.SellActivity;
-import com.example.buffstuff.UserActivity;
+import com.example.buffstuff.User.UserActivity;
 import com.google.firebase.auth.FirebaseAuth;
 
 import java.util.ArrayList;
