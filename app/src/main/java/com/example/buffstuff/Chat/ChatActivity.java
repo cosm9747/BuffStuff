@@ -1,28 +1,84 @@
 package com.example.buffstuff.Chat;
 
+import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
+import androidx.recyclerview.widget.LinearLayoutManager;
+import androidx.recyclerview.widget.RecyclerView;
 
 import android.content.Intent;
 import android.os.Bundle;
+import android.util.Log;
 import android.view.Menu;
 import android.view.MenuInflater;
 import android.view.MenuItem;
+import android.view.View;
+import android.widget.EditText;
 
 import com.example.buffstuff.Buy.BuyActivity;
+import com.example.buffstuff.Buy.FilterActivity;
+import com.example.buffstuff.Chat.ChatActivity;
 import com.example.buffstuff.Login.MainActivity;
 import com.example.buffstuff.R;
 import com.example.buffstuff.Sell.SellActivity;
 import com.example.buffstuff.User.UserActivity;
+import com.google.android.gms.tasks.OnCompleteListener;
+import com.google.android.gms.tasks.Task;
 import com.google.firebase.auth.FirebaseAuth;
+import com.google.firebase.firestore.FirebaseFirestore;
+import com.google.firebase.firestore.QueryDocumentSnapshot;
+import com.google.firebase.firestore.QuerySnapshot;
 
-public class ChatActivity extends AppCompatActivity {
+import java.util.ArrayList;
+
+//Load page that shows buy options
+public class ChatActivity extends AppCompatActivity{
+    //For prints
+    String TAG = "Testing";
+    RecyclerView recyclerView;
+    ChatAdapter adapter;
+    ArrayList<User> User = new ArrayList<User>();
+    FirebaseFirestore db = FirebaseFirestore.getInstance();
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
+        //When this function is called
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_chat);
-    }
+        final Intent loadIntent = getIntent();
 
+        //Hold this context
+        final RecyclerView.LayoutManager hold = new LinearLayoutManager(this);
+        //Get all items from firebase
+        db.collection("items")
+                .get()
+                .addOnCompleteListener(new OnCompleteListener<QuerySnapshot>() {
+                    @Override
+                    public void onComplete(@NonNull Task<QuerySnapshot> task) {
+                        //If succesfully accessed firebase
+                        if (task.isSuccessful()) {
+                            //For every item in the database
+                            //Create an item card, set its name and price
+                            //Add item card to item list
+                            for (QueryDocumentSnapshot document : task.getResult()) {
+                                User user = new User();
+                                user.setName(document.getString("name"));
+                            }
+                        }
+                        //If failed to access firebase
+                        else {
+                            Log.d("Testing", "Problem");
+                        }
+                        //Display buy activity on screen
+                        setContentView(R.layout.chat_list);
+
+                        //Set the adapter to add all the item cards to the recycler view
+                        recyclerView = (RecyclerView) findViewById(R.id.chat_recycler_view);
+                        recyclerView.setLayoutManager(hold);
+                        adapter = new ChatAdapter(User);
+
+                        recyclerView.setAdapter(adapter);
+                    }
+                });
+    }
     //Create an options menu
     public boolean onCreateOptionsMenu(Menu menu) {
         MenuInflater inflater = getMenuInflater();
@@ -62,4 +118,5 @@ public class ChatActivity extends AppCompatActivity {
             startActivity(intent);
         }
     }
+
 }
