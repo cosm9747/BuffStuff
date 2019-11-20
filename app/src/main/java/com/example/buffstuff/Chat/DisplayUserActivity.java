@@ -7,6 +7,7 @@ import android.view.Menu;
 import android.view.MenuInflater;
 import android.view.MenuItem;
 import android.widget.ImageView;
+import android.widget.ListView;
 import android.widget.TextView;
 
 import androidx.annotation.NonNull;
@@ -31,6 +32,8 @@ public class DisplayUserActivity extends AppCompatActivity {
         setContentView(R.layout.activity_chat);
         db.collection("users")
                 .document(id)
+                .collection("profile")
+                .document(id)
                 .get()
                 .addOnCompleteListener(new OnCompleteListener<DocumentSnapshot>() {
                     @Override
@@ -39,8 +42,8 @@ public class DisplayUserActivity extends AppCompatActivity {
                         DocumentSnapshot document = task.getResult();
                         if (document.exists()) {
                             //Set name
-                            TextView use = findViewById(R.id.name);
-                            use.setText(document.getString("name"));
+                            ListView use = findViewById(R.id.messages_view);
+
                         }
                         //If failed to access firebase
                         else {

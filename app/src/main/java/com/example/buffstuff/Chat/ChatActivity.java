@@ -48,7 +48,7 @@ public class ChatActivity extends AppCompatActivity{
         //Hold this context
         final RecyclerView.LayoutManager hold = new LinearLayoutManager(this);
         //Get all items from firebase
-        db.collection("items")
+        db.collection("users").document().collection("profile")
                 .get()
                 .addOnCompleteListener(new OnCompleteListener<QuerySnapshot>() {
                     @Override

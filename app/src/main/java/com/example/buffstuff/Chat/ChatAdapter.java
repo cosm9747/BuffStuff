@@ -61,8 +61,8 @@ public class ChatAdapter extends RecyclerView.Adapter<ChatAdapter.ViewHolder> {
     public class ViewHolder extends RecyclerView.ViewHolder
     {
         TextView name;
-
         CardView cv;
+
         //Create new itemView for each item in passed item list
         public ViewHolder(View itemView)
         {
