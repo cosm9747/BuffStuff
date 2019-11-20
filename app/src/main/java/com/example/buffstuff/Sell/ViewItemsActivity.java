@@ -19,7 +19,7 @@ import com.example.buffstuff.Chat.ChatActivity;
 import com.example.buffstuff.Login.MainActivity;
 import com.example.buffstuff.R;
 import com.example.buffstuff.Sell.SellActivity;
-import com.example.buffstuff.UserActivity;
+import com.example.buffstuff.User.UserActivity;
 import com.google.android.gms.tasks.OnCompleteListener;
 import com.google.android.gms.tasks.Task;
 import com.google.firebase.auth.FirebaseAuth;
