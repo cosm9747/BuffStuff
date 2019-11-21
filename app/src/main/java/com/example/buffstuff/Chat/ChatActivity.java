@@ -11,12 +11,8 @@ import android.util.Log;
 import android.view.Menu;
 import android.view.MenuInflater;
 import android.view.MenuItem;
-import android.view.View;
-import android.widget.EditText;
 
 import com.example.buffstuff.Buy.BuyActivity;
-import com.example.buffstuff.Buy.FilterActivity;
-import com.example.buffstuff.Chat.ChatActivity;
 import com.example.buffstuff.Login.MainActivity;
 import com.example.buffstuff.R;
 import com.example.buffstuff.Sell.SellActivity;
@@ -24,6 +20,7 @@ import com.example.buffstuff.User.UserActivity;
 import com.google.android.gms.tasks.OnCompleteListener;
 import com.google.android.gms.tasks.Task;
 import com.google.firebase.auth.FirebaseAuth;
+import com.google.firebase.auth.FirebaseUser;
 import com.google.firebase.firestore.FirebaseFirestore;
 import com.google.firebase.firestore.QueryDocumentSnapshot;
 import com.google.firebase.firestore.QuerySnapshot;
@@ -35,8 +32,8 @@ public class ChatActivity extends AppCompatActivity{
     //For prints
     String TAG = "Testing";
     RecyclerView recyclerView;
-    ChatAdapter adapter;
-    ArrayList<User> User = new ArrayList<User>();
+    com.example.buffstuff.Chat.ChatAdapter adapter;
+    ArrayList<User> Users = new ArrayList<User>();
     FirebaseFirestore db = FirebaseFirestore.getInstance();
 
     @Override
@@ -44,11 +41,14 @@ public class ChatActivity extends AppCompatActivity{
         //When this function is called
         super.onCreate(savedInstanceState);
         final Intent loadIntent = getIntent();
-
         //Hold this context
         final RecyclerView.LayoutManager hold = new LinearLayoutManager(this);
+        FirebaseAuth mAuth;
+        mAuth = FirebaseAuth.getInstance();
+        FirebaseUser currentUser = mAuth.getCurrentUser();
+        final String userId = currentUser.getUid();
         //Get all items from firebase
-        db.collection("users").document().collection("profile")
+        db.collection("chats")
                 .get()
                 .addOnCompleteListener(new OnCompleteListener<QuerySnapshot>() {
                     @Override
@@ -60,12 +60,15 @@ public class ChatActivity extends AppCompatActivity{
                             //Add item card to item list
                             for (QueryDocumentSnapshot document : task.getResult()) {
                                 User user = new User();
-                                user.setName(document.getString("name"));
+                                user.setName(document.getString("about"));
+                                if(userId.equals(document.getString("sender")) || userId.equals(document.getString("receiver"))){
+                                    Users.add(user);
+                                }
                             }
                         }
                         //If failed to access firebase
                         else {
-                            Log.d("Testing", "Problem");
+                            Log.d(TAG, "Problem");
                         }
                         //Display buy activity on screen
                         setContentView(R.layout.chat_list);
@@ -73,7 +76,7 @@ public class ChatActivity extends AppCompatActivity{
                         //Set the adapter to add all the item cards to the recycler view
                         recyclerView = (RecyclerView) findViewById(R.id.chat_recycler_view);
                         recyclerView.setLayoutManager(hold);
-                        adapter = new ChatAdapter(User);
+                        adapter = new com.example.buffstuff.Chat.ChatAdapter(Users);
 
                         recyclerView.setAdapter(adapter);
                     }
@@ -118,5 +121,4 @@ public class ChatActivity extends AppCompatActivity{
             startActivity(intent);
         }
     }
-
 }

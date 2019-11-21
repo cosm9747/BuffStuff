@@ -73,6 +73,5 @@ public class Adapter extends RecyclerView.Adapter<Adapter.ViewHolder> {
             price = (TextView)itemView.findViewById(R.id.text_view_price);
             cv = (CardView)itemView.findViewById(R.id.cv);
         }
-
     }
 }

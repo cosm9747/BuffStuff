@@ -20,16 +20,17 @@ public class ChatAdapter extends RecyclerView.Adapter<ChatAdapter.ViewHolder> {
 
     List<User> UserList;
     Context context;
+    String TAG = "Testing";
 
-    public ChatAdapter(List<User>UserList)
+    public ChatAdapter(List<User>ItemList)
     {
-        this.UserList = UserList;
+        this.UserList = ItemList;
     }
 
     @Override
     //When new view is made, make a new view holder
     public ViewHolder onCreateViewHolder(ViewGroup parent, int viewType) {
-        View view = LayoutInflater.from(parent.getContext()).inflate(R.layout.chat_list, parent, false);
+        View view = LayoutInflater.from(parent.getContext()).inflate(R.layout.user, parent, false);
         ViewHolder viewHolder = new ViewHolder(view);
         context = parent.getContext();
         return viewHolder;
@@ -39,18 +40,8 @@ public class ChatAdapter extends RecyclerView.Adapter<ChatAdapter.ViewHolder> {
     //When this adapter is bound to a view, set the holder title and price
     public void onBindViewHolder(ViewHolder holder, final int position) {
         final User thing = UserList.get(position);
-
+        Log.d(TAG, "Doing something");
         holder.name.setText(thing.getName());
-        holder.cv.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view)
-            {
-                Intent intent = new Intent(view.getContext(), DisplayUserActivity.class);
-                intent.putExtra("ID", thing.getName());
-                Log.d("working", "There");
-                view.getContext().startActivity(intent);
-            }
-        });
     }
 
     @Override
@@ -64,11 +55,11 @@ public class ChatAdapter extends RecyclerView.Adapter<ChatAdapter.ViewHolder> {
         CardView cv;
 
         //Create new itemView for each item in passed item list
-        public ViewHolder(View itemView)
+        public ViewHolder(View userView)
         {
-            super(itemView);
-            name = (TextView)itemView.findViewById(R.id.user_view_name);
-            cv = (CardView)itemView.findViewById(R.id.usercv);
+            super(userView);
+            name = (TextView)userView.findViewById(R.id.text_view_name);
+            cv = (CardView)userView.findViewById(R.id.cv);
         }
 
     }
