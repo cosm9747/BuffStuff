@@ -1,4 +1,4 @@
-package com.example.buffstuff;
+package com.example.buffstuff.Buy;
 
 import android.content.Context;
 import android.content.Intent;
@@ -6,11 +6,12 @@ import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-import android.widget.EditText;
 import android.widget.TextView;
 
 import androidx.cardview.widget.CardView;
 import androidx.recyclerview.widget.RecyclerView;
+
+import com.example.buffstuff.R;
 
 import java.util.List;
 
@@ -72,6 +73,5 @@ public class Adapter extends RecyclerView.Adapter<Adapter.ViewHolder> {
             price = (TextView)itemView.findViewById(R.id.text_view_price);
             cv = (CardView)itemView.findViewById(R.id.cv);
         }
-
     }
 }

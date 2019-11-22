@@ -6,9 +6,25 @@
     android:layout_height="match_parent">
 
     <androidx.constraintlayout.widget.ConstraintLayout
-        tools:context=".MainActivity"
+        tools:context=".Login.MainActivity"
         android:layout_width="match_parent"
         android:layout_height="match_parent">
+
+        <EditText
+            android:id="@+id/editText4"
+            android:layout_width="wrap_content"
+            android:layout_height="0dp"
+            android:layout_marginTop="40dp"
+            android:autofillHints=""
+            android:ems="10"
+            android:hint="Full Name"
+            android:inputType="text"
+            android:textColor="#000000"
+            android:textColorHighlight="#FFC107"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@+id/editText"
+            tools:targetApi="o" />
 
         <Button
             android:id="@+id/button2"
@@ -40,7 +56,7 @@
             android:id="@+id/editText2"
             android:layout_width="wrap_content"
             android:layout_height="0dp"
-            android:layout_marginTop="16dp"
+            android:layout_marginTop="40dp"
             android:autofillHints=""
             android:ems="10"
             android:hint="@string/login_password"
@@ -49,14 +65,14 @@
             android:textColorHighlight="#FFC107"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toBottomOf="@+id/editText"
+            app:layout_constraintTop_toBottomOf="@+id/editText4"
             tools:targetApi="o" />
 
         <EditText
             android:id="@+id/editText3"
             android:layout_width="wrap_content"
             android:layout_height="0dp"
-            android:layout_marginTop="16dp"
+            android:layout_marginTop="40dp"
             android:autofillHints=""
             android:ems="10"
             android:hint="@string/password_confirmation"

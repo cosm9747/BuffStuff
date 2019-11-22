@@ -8,4 +8,19 @@
     <string name="password_reset"><u>reset password?</u></string>
     <string name="new_user"><u>new user?</u></string>
     <string name="returning_user"><u>already a user?</u></string>
+    <string name="sell">Sell A New Item</string>
+    <string-array name="condition_array">
+        <item>Select One</item>
+        <item>Poor</item>
+        <item>Acceptable</item>
+        <item>Good</item>
+        <item>Excellent</item>
+    </string-array>
+    <string-array name="category_array">
+        <item>Select One</item>
+        <item>Textbook</item>
+        <item>Furniture</item>
+        <item>Electronic</item>
+        <item>Other</item>
+    </string-array>
 </resources>
