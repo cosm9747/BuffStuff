@@ -42,6 +42,15 @@ public class ChatAdapter extends RecyclerView.Adapter<ChatAdapter.ViewHolder> {
         final User thing = UserList.get(position);
         Log.d(TAG, "Doing something");
         holder.name.setText(thing.getName());
+
+        // Display chat messages when card is clicked
+        holder.cv.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                Intent intent = new Intent(v.getContext(), DisplayChat.class);
+                v.getContext().startActivity(intent);
+            }
+        });
     }
 
     @Override

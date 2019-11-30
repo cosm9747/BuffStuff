@@ -11,6 +11,10 @@ import android.util.Log;
 import android.view.Menu;
 import android.view.MenuInflater;
 import android.view.MenuItem;
+import android.view.View;
+import android.widget.Button;
+import android.widget.EditText;
+import android.widget.ImageButton;
 
 import com.example.buffstuff.Buy.BuyActivity;
 import com.example.buffstuff.Login.MainActivity;
@@ -19,8 +23,10 @@ import com.example.buffstuff.Sell.SellActivity;
 import com.example.buffstuff.User.UserActivity;
 import com.google.android.gms.tasks.OnCompleteListener;
 import com.google.android.gms.tasks.Task;
+import com.google.android.material.floatingactionbutton.FloatingActionButton;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.auth.FirebaseUser;
+import com.google.firebase.firestore.CollectionReference;
 import com.google.firebase.firestore.FirebaseFirestore;
 import com.google.firebase.firestore.QueryDocumentSnapshot;
 import com.google.firebase.firestore.QuerySnapshot;
@@ -70,10 +76,10 @@ public class ChatActivity extends AppCompatActivity{
                         else {
                             Log.d(TAG, "Problem");
                         }
-                        //Display buy activity on screen
+                        //Display chat activity on screen
                         setContentView(R.layout.chat_list);
 
-                        //Set the adapter to add all the item cards to the recycler view
+                        //Set the adapter to add all the chat cards to the recycler view
                         recyclerView = (RecyclerView) findViewById(R.id.chat_recycler_view);
                         recyclerView.setLayoutManager(hold);
                         adapter = new com.example.buffstuff.Chat.ChatAdapter(Users);
@@ -81,7 +87,14 @@ public class ChatActivity extends AppCompatActivity{
                         recyclerView.setAdapter(adapter);
                     }
                 });
+
+
     }
+
+
+
+
+
     //Create an options menu
     public boolean onCreateOptionsMenu(Menu menu) {
         MenuInflater inflater = getMenuInflater();
