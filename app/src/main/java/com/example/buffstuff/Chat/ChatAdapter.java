@@ -48,6 +48,7 @@ public class ChatAdapter extends RecyclerView.Adapter<ChatAdapter.ViewHolder> {
             @Override
             public void onClick(View v) {
                 Intent intent = new Intent(v.getContext(), DisplayChat.class);
+                intent.putExtra("ID", thing.getId());
                 v.getContext().startActivity(intent);
             }
         });
