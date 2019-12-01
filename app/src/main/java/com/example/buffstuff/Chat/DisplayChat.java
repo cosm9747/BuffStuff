@@ -24,7 +24,7 @@ public class DisplayChat extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         Intent loadIntent = getIntent();
         //Find out what the item's id is
-        //final String id = loadIntent.getStringExtra("ID");
+        final String id = loadIntent.getStringExtra("ID");
         setContentView(R.layout.activity_chat);
         db.collection("chats")
                 .document()

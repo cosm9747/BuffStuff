@@ -61,9 +61,9 @@ public class ChatActivity extends AppCompatActivity{
                     public void onComplete(@NonNull Task<QuerySnapshot> task) {
                         //If succesfully accessed firebase
                         if (task.isSuccessful()) {
-                            //For every item in the database
-                            //Create an item card, set its name and price
-                            //Add item card to item list
+                            //For every item where you're the seller or person interested in buying
+                            //Create an item card,
+                            //Add item card to list
                             for (QueryDocumentSnapshot document : task.getResult()) {
                                 User user = new User();
                                 user.setName(document.getString("about"));
@@ -90,6 +90,8 @@ public class ChatActivity extends AppCompatActivity{
 
 
     }
+
+    
 
 
 

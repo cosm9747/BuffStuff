@@ -15,6 +15,7 @@ import android.view.View;
 import android.widget.EditText;
 
 import com.example.buffstuff.Chat.ChatActivity;
+import com.example.buffstuff.Chat.DisplayChat;
 import com.example.buffstuff.Login.MainActivity;
 import com.example.buffstuff.R;
 import com.example.buffstuff.Sell.SellActivity;
