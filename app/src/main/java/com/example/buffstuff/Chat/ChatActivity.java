@@ -67,6 +67,7 @@ public class ChatActivity extends AppCompatActivity{
                             for (QueryDocumentSnapshot document : task.getResult()) {
                                 User user = new User();
                                 user.setName(document.getString("about"));
+                                //sender is the buyer, receiver is the seller
                                 if(userId.equals(document.getString("sender")) || userId.equals(document.getString("receiver"))){
                                     Users.add(user);
                                 }
