@@ -29,6 +29,7 @@ import com.google.firebase.firestore.DocumentSnapshot;
 import com.google.firebase.firestore.EventListener;
 import com.google.firebase.firestore.FirebaseFirestore;
 import com.google.firebase.firestore.FirebaseFirestoreException;
+import com.google.firebase.firestore.QueryDocumentSnapshot;
 import com.google.firebase.firestore.QuerySnapshot;
 
 import java.util.ArrayList;
@@ -74,6 +75,7 @@ public class DisplayChat extends AppCompatActivity {
             @Override
             public void onEvent(@Nullable QuerySnapshot queryDocumentSnapshots, @Nullable FirebaseFirestoreException e) {
                 if (e != null) {
+                    Log.w("CHAT_TEST", "Listen Failed.", e);
                     return;
                 }
 
@@ -81,9 +83,7 @@ public class DisplayChat extends AppCompatActivity {
                     switch (dc.getType()) {
                         case ADDED:
 
-                            Messages message = (Messages) dc.getDocument().getData();
-                            messagesList.add(message);
-                            messagesAdapter.notifyDataSetChanged();
+                            Log.d("CHAT_TEST", "New message " + dc.getDocument().getData());
 
 
                             break;

@@ -74,7 +74,6 @@ public class MessagesAdapter extends RecyclerView.Adapter<MessagesAdapter.Messag
         final Messages messages = userMessagesList.get(position);
 
         final String fromUserId = messages.getSender();
-        final String fromMessageType = messages.getType();
 
         userRef = FirebaseFirestore.getInstance()
                 .collection("chats")
@@ -88,7 +87,7 @@ public class MessagesAdapter extends RecyclerView.Adapter<MessagesAdapter.Messag
 
                             for (QueryDocumentSnapshot document : task.getResult()) {
 
-                                if (fromMessageType.equals("text")) {
+
 
                                     holder.receiverMessageText.setVisibility(View.INVISIBLE);
 
@@ -112,7 +111,7 @@ public class MessagesAdapter extends RecyclerView.Adapter<MessagesAdapter.Messag
                                     }
                                 }
 
-                            }
+
 
                         }
                     }
