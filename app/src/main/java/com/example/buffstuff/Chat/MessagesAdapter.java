@@ -1,5 +1,6 @@
 package com.example.buffstuff.Chat;
 
+import android.graphics.Color;
 import android.os.Message;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -16,6 +17,8 @@ import com.google.android.gms.tasks.Task;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.firestore.DocumentSnapshot;
 import com.google.firebase.firestore.FirebaseFirestore;
+import com.google.firebase.firestore.QueryDocumentSnapshot;
+import com.google.firebase.firestore.QuerySnapshot;
 
 import java.util.List;
 
@@ -23,7 +26,7 @@ public class MessagesAdapter extends RecyclerView.Adapter<MessagesAdapter.Messag
 {
     private List<Messages> userMessagesList;
     private FirebaseAuth mAuth;
-    private FirebaseFirestore userRef;
+    private Task<QuerySnapshot> userRef;
 
 
 
@@ -38,7 +41,7 @@ public class MessagesAdapter extends RecyclerView.Adapter<MessagesAdapter.Messag
 
         public TextView senderMessageText, receiverMessageText;
 
-
+        // Used to display chat messages
         public MessageViewHolder(@NonNull View itemView) {
             super(itemView);
 
@@ -64,13 +67,56 @@ public class MessagesAdapter extends RecyclerView.Adapter<MessagesAdapter.Messag
 
 
     @Override
-    public void onBindViewHolder(@NonNull MessageViewHolder holder, int position)
+    public void onBindViewHolder(@NonNull final MessageViewHolder holder, int position)
     {
-        String messageSenderId = mAuth.getCurrentUser().getUid();
-        Messages messages = userMessagesList.get(position);
+        final String messageSenderId = mAuth.getCurrentUser().getUid();
+        final Messages messages = userMessagesList.get(position);
 
-        String fromUserId = messages.getSender();
+        final String fromUserId = messages.getSender();
+        final String fromMessageType = messages.getType();
 
+        userRef = FirebaseFirestore.getInstance()
+                .collection("chats")
+                .document()
+                .collection("messages")
+                .get()
+                .addOnCompleteListener(new OnCompleteListener<QuerySnapshot>() {
+                    @Override
+                    public void onComplete(@NonNull Task<QuerySnapshot> task) {
+                        if (task.isSuccessful()) {
+
+                            for (QueryDocumentSnapshot document : task.getResult()) {
+
+                                if (fromMessageType.equals("text")) {
+
+                                    holder.receiverMessageText.setVisibility(View.INVISIBLE);
+
+                                    if (fromUserId.equals(messageSenderId)) { // If you are the sender
+
+                                        holder.senderMessageText.setBackgroundResource(R.drawable.my_message);
+                                        holder.senderMessageText.setTextColor(Color.BLACK);
+                                        holder.senderMessageText.setText(messages.getText());
+                                    }
+
+                                    else {
+
+                                        holder.senderMessageText.setVisibility(View.INVISIBLE);
+                                        holder.receiverMessageText.setVisibility(View.VISIBLE);
+
+
+                                        holder.receiverMessageText.setBackgroundResource(R.drawable.their_message);
+                                        holder.receiverMessageText.setTextColor(Color.BLACK);
+                                        holder.receiverMessageText.setText(messages.getText());
+
+                                    }
+                                }
+
+
+                            }
+
+                        }
+                    }
+                });
 
     }
 

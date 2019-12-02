@@ -4,7 +4,7 @@ import java.util.Date;
 
 public class Messages {
 
-    String sender, text;
+    String sender, text, type;
     Date time;
 
     public Messages() {
@@ -15,6 +15,7 @@ public class Messages {
         this.sender = sender;
         this.text = text;
         this.time = time;
+        this.type = type;
     }
 
     public String getSender() {
@@ -24,6 +25,10 @@ public class Messages {
     public void setSender(String sender) {
         this.sender = sender;
     }
+
+    public String getType() {return type;}
+
+    public void setType(String type) { this.type = type;}
 
     public String getText() {
         return text;

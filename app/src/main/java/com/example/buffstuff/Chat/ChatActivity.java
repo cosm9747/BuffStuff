@@ -27,11 +27,13 @@ import com.google.android.material.floatingactionbutton.FloatingActionButton;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.auth.FirebaseUser;
 import com.google.firebase.firestore.CollectionReference;
+import com.google.firebase.firestore.DocumentSnapshot;
 import com.google.firebase.firestore.FirebaseFirestore;
 import com.google.firebase.firestore.QueryDocumentSnapshot;
 import com.google.firebase.firestore.QuerySnapshot;
 
 import java.util.ArrayList;
+import java.util.List;
 
 //Load page that shows buy options
 public class ChatActivity extends AppCompatActivity{
@@ -41,6 +43,14 @@ public class ChatActivity extends AppCompatActivity{
     com.example.buffstuff.Chat.ChatAdapter adapter;
     ArrayList<User> Users = new ArrayList<User>();
     FirebaseFirestore db = FirebaseFirestore.getInstance();
+
+    // Used to display messages
+    private final List<Messages> messagesList = new ArrayList<>();
+    private LinearLayoutManager linearLayoutManager;
+    private MessagesAdapter messagesAdapter;
+    private RecyclerView userMessagesList;
+
+
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -90,12 +100,25 @@ public class ChatActivity extends AppCompatActivity{
                     }
                 });
 
+        InitializeControllers();
 
     }
 
-    
 
 
+
+
+
+    // Used to display chat messages
+    private void InitializeControllers() {
+
+        messagesAdapter = new MessagesAdapter(messagesList);
+        userMessagesList = (RecyclerView) findViewById(R.id.messages_view);
+        linearLayoutManager = new LinearLayoutManager(this);
+        userMessagesList.setLayoutManager(linearLayoutManager);
+        userMessagesList.setAdapter(messagesAdapter);
+
+    }
 
 
 
