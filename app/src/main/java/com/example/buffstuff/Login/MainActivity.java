@@ -80,6 +80,7 @@ public class MainActivity extends AppCompatActivity {
             Toast.makeText(MainActivity.this, "Invalid Email or Password.",
                     Toast.LENGTH_SHORT).show();
         }
+        findViewById(R.id.progressBar).setVisibility(View.INVISIBLE);
     }
 
 }
