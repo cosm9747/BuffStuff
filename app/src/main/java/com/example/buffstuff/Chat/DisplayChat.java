@@ -29,6 +29,7 @@ import com.google.firebase.firestore.DocumentSnapshot;
 import com.google.firebase.firestore.EventListener;
 import com.google.firebase.firestore.FirebaseFirestore;
 import com.google.firebase.firestore.FirebaseFirestoreException;
+import com.google.firebase.firestore.Query;
 import com.google.firebase.firestore.QueryDocumentSnapshot;
 import com.google.firebase.firestore.QuerySnapshot;
 
@@ -84,6 +85,9 @@ public class DisplayChat extends AppCompatActivity {
                         case ADDED:
 
                             Log.d("CHAT_TEST", "New message " + dc.getDocument().getData());
+                            Messages message = dc.getDocument().toObject(Messages.class);
+                            messagesList.add(message);
+                            messagesAdapter.notifyDataSetChanged();
 
 
                             break;
