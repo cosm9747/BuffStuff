@@ -51,9 +51,9 @@ public class UserActivity extends AppCompatActivity {
         FirebaseUser currentUser = mAuth.getCurrentUser();
         String id = currentUser.getUid();
 
-        final TextView e = (TextView) findViewById(R.id.textView9); //email
-        final EditText n = (EditText) findViewById(R.id.editText5); //name
-        final EditText b = (EditText) findViewById(R.id.editText6); //bio
+        final TextView e = findViewById(R.id.textView9); //email
+        final EditText n = findViewById(R.id.editText5); //name
+        final EditText b = findViewById(R.id.editText6); //bio
 
         String email = currentUser.getEmail();
         e.setText(email);
@@ -89,9 +89,8 @@ public class UserActivity extends AppCompatActivity {
         FirebaseUser currentUser = mAuth.getCurrentUser();
         String id = currentUser.getUid();
 
-        final TextView e = (TextView) findViewById(R.id.textView9); //email
-        final EditText n = (EditText) findViewById(R.id.editText5); //name
-        final EditText b = (EditText) findViewById(R.id.editText6); //bio
+        final EditText n = findViewById(R.id.editText5); //name
+        final EditText b = findViewById(R.id.editText6); //bio
 
         Map<String, Object> userInfo = new HashMap<>();
         userInfo.put("name", n.getText().toString());
