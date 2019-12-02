@@ -72,28 +72,26 @@ public class DisplayChat extends AppCompatActivity {
         String message = m.getText().toString();
         Date date = Calendar.getInstance().getTime();
 
-        if(message.length() != 0) {
-            //writing message to db
-            Map<String, Object> data = new HashMap<>();
-            data.put("sender", userId);
-            data.put("sentAt", date);
-            data.put("text", message);
+        //writing message to db
+        Map<String, Object> data = new HashMap<>();
+        data.put("sender", userId);
+        data.put("sentAt", date);
+        data.put("text", message);
 
-            db.collection("chats").document(id).collection("messages")
-                    .add(data)
-                    .addOnSuccessListener(new OnSuccessListener<DocumentReference>() {
-                        @Override
-                        public void onSuccess(DocumentReference documentReference) {
-                            Log.d("TEST", "DocumentSnapshot written with ID: " + documentReference.getId());
-                        }
-                    })
-                    .addOnFailureListener(new OnFailureListener() {
-                        @Override
-                        public void onFailure(@NonNull Exception e) {
-                            Log.w("TEST", "Error adding document", e);
-                        }
-                    });
-            m.setText("");
-        }
+        db.collection("chats").document(id).collection("messages")
+                .add(data)
+                .addOnSuccessListener(new OnSuccessListener<DocumentReference>() {
+                    @Override
+                    public void onSuccess(DocumentReference documentReference) {
+                        Log.d("TEST", "DocumentSnapshot written with ID: " + documentReference.getId());
+                    }
+                })
+                .addOnFailureListener(new OnFailureListener() {
+                    @Override
+                    public void onFailure(@NonNull Exception e) {
+                        Log.w("TEST", "Error adding document", e);
+                    }
+                });
+        m.setText("");
     }
 }
