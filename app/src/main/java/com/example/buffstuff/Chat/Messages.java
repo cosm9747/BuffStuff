@@ -4,17 +4,18 @@ import java.util.Date;
 
 public class Messages {
 
-    String sender, text;
+    String sender, text, type;
     Date time;
 
     public Messages() {
 
     }
 
-    public Messages(String sender, String text, Date time) {
+    public Messages(String sender, String text, String type, Date time) {
         this.sender = sender;
         this.text = text;
         this.time = time;
+        this.type = type;
     }
 
     public String getSender() {
@@ -40,4 +41,8 @@ public class Messages {
     public void setTime(Date time) {
         this.time = time;
     }
+
+    public String getType() { return type;
+    }
+    public void setType(String type) { this.type = type; }
 }
