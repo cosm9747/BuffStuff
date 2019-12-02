@@ -48,13 +48,6 @@ public class ChatActivity extends AppCompatActivity{
     com.example.buffstuff.Chat.ChatAdapter adapter;
     ArrayList<User> Users = new ArrayList<User>();
     FirebaseFirestore db = FirebaseFirestore.getInstance();
-
-
-    // Used to display messages
-    private final List<Messages> messagesList = new ArrayList<>();
-    private LinearLayoutManager linearLayoutManager;
-    private MessagesAdapter messagesAdapter;
-    private RecyclerView userMessagesList;
     String id;
 
 
@@ -108,60 +101,9 @@ public class ChatActivity extends AppCompatActivity{
                     }
                 });
 
-        InitializeControllers();
     }
 
 
-
-
-    // Used to display chat messages
-    private void InitializeControllers() {
-
-        messagesAdapter = new MessagesAdapter(messagesList);
-        userMessagesList = (RecyclerView) findViewById(R.id.messages_view);
-        linearLayoutManager = new LinearLayoutManager(this);
-        userMessagesList.setLayoutManager(linearLayoutManager);
-        userMessagesList.setAdapter(messagesAdapter);
-
-    }
-
-    // Used to display chat messages
-    @Override
-    protected void onStart() {
-        super.onStart();
-
-        CollectionReference ref = db.collection("chats").document(id).collection("messages");
-        ref.addSnapshotListener(new EventListener<QuerySnapshot>() {
-            @Override
-            public void onEvent(@Nullable QuerySnapshot queryDocumentSnapshots, @Nullable FirebaseFirestoreException e) {
-                if (e != null) {
-                    Log.w(TAG, "Listen Failed.", e);
-                    return;
-                }
-
-                for (DocumentChange dc : queryDocumentSnapshots.getDocumentChanges()) {
-                    switch (dc.getType()) {
-                        case ADDED:
-
-                            Log.d(TAG, "New message " + dc.getDocument().getData());
-                            Messages message = (Messages) dc.getDocument().getData();
-                            messagesList.add(message);
-                            messagesAdapter.notifyDataSetChanged();
-
-
-                            break;
-                        case MODIFIED:
-                            // Code here;
-                            break;
-                        case REMOVED:
-                            //code here;
-                            break;
-                    }
-                }
-            }
-        });
-
-    }
 
     //Create an options menu
     public boolean onCreateOptionsMenu(Menu menu) {

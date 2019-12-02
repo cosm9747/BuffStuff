@@ -9,7 +9,10 @@ import android.widget.ImageView;
 import android.widget.TextView;
 
 import androidx.annotation.NonNull;
+import androidx.annotation.Nullable;
 import androidx.appcompat.app.AppCompatActivity;
+import androidx.recyclerview.widget.LinearLayoutManager;
+import androidx.recyclerview.widget.RecyclerView;
 
 import com.bumptech.glide.Glide;
 import com.example.buffstuff.R;
@@ -19,19 +22,35 @@ import com.google.android.gms.tasks.OnSuccessListener;
 import com.google.android.gms.tasks.Task;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.auth.FirebaseUser;
+import com.google.firebase.firestore.CollectionReference;
+import com.google.firebase.firestore.DocumentChange;
 import com.google.firebase.firestore.DocumentReference;
 import com.google.firebase.firestore.DocumentSnapshot;
+import com.google.firebase.firestore.EventListener;
 import com.google.firebase.firestore.FirebaseFirestore;
+import com.google.firebase.firestore.FirebaseFirestoreException;
+import com.google.firebase.firestore.QuerySnapshot;
 
+import java.util.ArrayList;
 import java.util.Calendar;
 import java.util.Date;
 import java.util.HashMap;
+import java.util.List;
 import java.util.Map;
 
 public class DisplayChat extends AppCompatActivity {
     FirebaseFirestore db = FirebaseFirestore.getInstance();
     private FirebaseAuth mAuth = FirebaseAuth.getInstance();
     String id;
+
+
+    // Used to display messages
+    private final List<Messages> messagesList = new ArrayList<>();
+    private LinearLayoutManager linearLayoutManager;
+    private MessagesAdapter messagesAdapter;
+    private RecyclerView userMessagesList;
+
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         //When this function is called
@@ -40,28 +59,54 @@ public class DisplayChat extends AppCompatActivity {
         //Find out what the item's id is
         id = loadIntent.getStringExtra("ID");
         setContentView(R.layout.activity_chat);
-//        db.collection("chats")
-//                .document(id)
-//                .collection("messages")
-//                .get()
-//                .addOnCompleteListener(new OnCompleteListener<DocumentSnapshot>() {
-//                    @Override
-//                    public void onComplete(@NonNull Task<DocumentSnapshot> task) {
-//                        //If succesfully accessed firebase
-//                        DocumentSnapshot document = task.getResult();
-//                        if (document.exists()) {
-//                            //Set name
-//                            TextView use = findViewById(R.id.their_message_body);
-//                            use.setText(document.getString("text"));
-//
-//                        }
-//                        //If failed to access firebase
-//                        else {
-//                            Log.d("Debug", "Problem");
-//                        }
-//                    }
-//                });
 
+
+        InitializeControllers();
+
+    }
+
+    @Override
+    protected void onStart() {
+        super.onStart();
+
+        CollectionReference ref = db.collection("chats").document(id).collection("messages");
+        ref.addSnapshotListener(new EventListener<QuerySnapshot>() {
+            @Override
+            public void onEvent(@Nullable QuerySnapshot queryDocumentSnapshots, @Nullable FirebaseFirestoreException e) {
+                if (e != null) {
+                    return;
+                }
+
+                for (DocumentChange dc : queryDocumentSnapshots.getDocumentChanges()) {
+                    switch (dc.getType()) {
+                        case ADDED:
+
+                            Messages message = (Messages) dc.getDocument().getData();
+                            messagesList.add(message);
+                            messagesAdapter.notifyDataSetChanged();
+
+
+                            break;
+                        case MODIFIED:
+                            // Code here;
+                            break;
+                        case REMOVED:
+                            //code here;
+                            break;
+                    }
+                }
+            }
+        });
+    }
+
+    // Used to display chat messages
+    private void InitializeControllers() {
+
+        messagesAdapter = new MessagesAdapter(messagesList);
+        userMessagesList = (RecyclerView) findViewById(R.id.messages_view);
+        linearLayoutManager = new LinearLayoutManager(this);
+        userMessagesList.setLayoutManager(linearLayoutManager);
+        userMessagesList.setAdapter(messagesAdapter);
 
     }
 

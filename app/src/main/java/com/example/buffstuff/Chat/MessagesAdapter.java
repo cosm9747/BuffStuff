@@ -99,7 +99,7 @@ public class MessagesAdapter extends RecyclerView.Adapter<MessagesAdapter.Messag
                                         holder.senderMessageText.setText(messages.getText());
                                     }
 
-                                    else { // You are the receiver 
+                                    else { // You are the receiver
 
                                         holder.senderMessageText.setVisibility(View.INVISIBLE);
                                         holder.receiverMessageText.setVisibility(View.VISIBLE);
