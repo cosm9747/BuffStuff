@@ -47,10 +47,14 @@ public class DisplayChat extends AppCompatActivity {
 
 
     // Used to display messages
-    private final List<Messages> messagesList = new ArrayList<>();
-    private LinearLayoutManager linearLayoutManager;
-    private MessagesAdapter messagesAdapter;
-    private RecyclerView userMessagesList;
+//    private final List<Messages> messagesList = new ArrayList<>();
+//    private LinearLayoutManager linearLayoutManager;
+//    private MessagesAdapter messagesAdapter;
+//    private RecyclerView userMessagesList;
+    List<Messages> messagesList = new ArrayList<>();
+    LinearLayoutManager linearLayoutManager;
+    MessagesAdapter messagesAdapter;
+    RecyclerView userMessagesList;
 
 
     @Override
@@ -60,59 +64,102 @@ public class DisplayChat extends AppCompatActivity {
         Intent loadIntent = getIntent();
         //Find out what the item's id is
         id = loadIntent.getStringExtra("ID");
-        setContentView(R.layout.activity_chat);
+
+//        setContentView(R.layout.activity_chat);
 
 
-        InitializeControllers();
+//        InitializeControllers();
+        final FirebaseUser currentUser = mAuth.getCurrentUser();
+        //chat test
+        //Hold this context
+        final RecyclerView.LayoutManager linearLayoutManager = new LinearLayoutManager(this);
+        //Get all items from firebase
+        db.collection("chats").document(id).collection("messages")
+                .get()
+                .addOnCompleteListener(new OnCompleteListener<QuerySnapshot>() {
+                    @Override
+                    public void onComplete(@NonNull Task<QuerySnapshot> task) {
+                        //If succesfully accessed firebase
+                        if (task.isSuccessful()) {
+                            //For every item in the database
+                            //Add item card to item list
+                            for (QueryDocumentSnapshot document : task.getResult()) {
+                                Messages message = new Messages();
+                                message.setSender(document.getString("sender"));
+                                message.setSentAt(document.getDate("sentAt"));
+                                message.setText(document.getString("text"));
+                                if(currentUser.getUid().equals(message.getSender())){
+                                    message.setIsSenderSelf(true);
+                                } else {
+                                    message.setIsSenderSelf(false);
+                                }
+                                messagesList.add(message);
+                            }
+                        }
+                        //If failed to access firebase
+                        else {
+                            Log.d("Testing", "Problem");
+                        }
+                        //Display chat activity on screen
+                        setContentView(R.layout.activity_chat);
 
-    }
+                        //Set the adapter to add all the item cards to the recycler view
 
-    @Override
-    protected void onStart() {
-        super.onStart();
-
-        CollectionReference ref = db.collection("chats").document(id).collection("messages");
-        ref.addSnapshotListener(new EventListener<QuerySnapshot>() {
-            @Override
-            public void onEvent(@Nullable QuerySnapshot queryDocumentSnapshots, @Nullable FirebaseFirestoreException e) {
-                if (e != null) {
-                    Log.w("CHAT_TEST", "Listen Failed.", e);
-                    return;
-                }
-
-                for (DocumentChange dc : queryDocumentSnapshots.getDocumentChanges()) {
-                    switch (dc.getType()) {
-                        case ADDED:
-
-                            Log.d("CHAT_TEST", "New message " + dc.getDocument().getData());
-                            Messages message = dc.getDocument().toObject(Messages.class);
-                            messagesList.add(message);
-                            messagesAdapter.notifyDataSetChanged();
-
-
-                            break;
-                        case MODIFIED:
-                            // Code here;
-                            break;
-                        case REMOVED:
-                            //code here;
-                            break;
+                        userMessagesList = (RecyclerView) findViewById(R.id.messages_view);
+                        userMessagesList.setLayoutManager(linearLayoutManager);
+                        messagesAdapter = new MessagesAdapter(messagesList);
+                        userMessagesList.setAdapter(messagesAdapter);
                     }
-                }
-            }
-        });
+                });
+
     }
+
+//    @Override
+//    protected void onStart() {
+//        super.onStart();
+//
+//        CollectionReference ref = db.collection("chats").document(id).collection("messages");
+//        ref.addSnapshotListener(new EventListener<QuerySnapshot>() {
+//            @Override
+//            public void onEvent(@Nullable QuerySnapshot queryDocumentSnapshots, @Nullable FirebaseFirestoreException e) {
+//                if (e != null) {
+//                    Log.w("CHAT_TEST", "Listen Failed.", e);
+//                    return;
+//                }
+//
+//                for (DocumentChange dc : queryDocumentSnapshots.getDocumentChanges()) {
+//                    switch (dc.getType()) {
+//                        case ADDED:
+//
+//                            Log.d("CHAT_TEST", "New message " + dc.getDocument().getData());
+//                            Messages message = dc.getDocument().toObject(Messages.class);
+//                            messagesList.add(message);
+//                            messagesAdapter.notifyDataSetChanged();
+//
+//
+//                            break;
+//                        case MODIFIED:
+//                            // Code here;
+//                            break;
+//                        case REMOVED:
+//                            //code here;
+//                            break;
+//                    }
+//                }
+//            }
+//        });
+//    }
 
     // Used to display chat messages
-    private void InitializeControllers() {
-
-        messagesAdapter = new MessagesAdapter(messagesList);
-        userMessagesList = (RecyclerView) findViewById(R.id.messages_view);
-        linearLayoutManager = new LinearLayoutManager(this);
-        userMessagesList.setLayoutManager(linearLayoutManager);
-        userMessagesList.setAdapter(messagesAdapter);
-
-    }
+//    private void InitializeControllers() {
+//
+//        messagesAdapter = new MessagesAdapter(messagesList);
+//        userMessagesList = (RecyclerView) findViewById(R.id.messages_view);
+//        linearLayoutManager = new LinearLayoutManager(this);
+//        userMessagesList.setLayoutManager(linearLayoutManager);
+//        userMessagesList.setAdapter(messagesAdapter);
+//
+//    }
 
     public void sendMessage(View view) {
         FirebaseUser currentUser = mAuth.getCurrentUser();
