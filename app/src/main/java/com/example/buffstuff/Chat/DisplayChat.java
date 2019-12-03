@@ -110,10 +110,10 @@ public class DisplayChat extends AppCompatActivity {
                         userMessagesList.setLayoutManager(linearLayoutManager);
                         messagesAdapter = new MessagesAdapter(messagesList);
                         userMessagesList.setAdapter(messagesAdapter);
-                        ((LinearLayoutManager) linearLayoutManager).setReverseLayout(true);
+
                     }
                 });
-
+        ((LinearLayoutManager) linearLayoutManager).setReverseLayout(true);
     }
 
 //    @Override
