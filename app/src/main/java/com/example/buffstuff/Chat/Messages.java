@@ -6,6 +6,7 @@ public class Messages {
 
     String sender, text;
     Date sentAt;
+    Boolean self;
 
     public Messages() {
 
@@ -16,6 +17,10 @@ public class Messages {
         this.text = text;
         this.sentAt = sentAt;
     }
+
+    public Boolean getIsSenderSelf() { return self; }
+
+    public void setIsSenderSelf(Boolean self) { this.self = self; }
 
     public String getSender() {
         return sender;
