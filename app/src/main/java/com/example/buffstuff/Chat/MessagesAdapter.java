@@ -160,8 +160,8 @@ public class MessagesAdapter extends RecyclerView.Adapter<MessagesAdapter.Messag
     public void onBindViewHolder(MessageViewHolder holder, final int position) {
         final Messages thing = userMessagesList.get(position);
 
-        SimpleDateFormat simpleDate =  new SimpleDateFormat("MM/dd/yyyy");
-        String time = simpleDate.format(thing.getSentAt());
+        SimpleDateFormat simpleDate =  new SimpleDateFormat("MM/dd/yyyy hh:mm aaa");
+        String time = simpleDate.format(thing.getSentAt()) + "\n";
 
         if(thing.getIsSenderSelf()) {
             holder.receiverMessageText.setVisibility(View.INVISIBLE);
