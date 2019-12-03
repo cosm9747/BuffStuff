@@ -96,7 +96,6 @@ public class DisplayChat extends AppCompatActivity {
                                 }
                                 messagesList.add(message);
                             }
-                            //test
                         }
                         //If failed to access firebase
                         else {
