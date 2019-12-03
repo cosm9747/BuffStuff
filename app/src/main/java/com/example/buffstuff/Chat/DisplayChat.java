@@ -75,6 +75,7 @@ public class DisplayChat extends AppCompatActivity {
         final RecyclerView.LayoutManager linearLayoutManager = new LinearLayoutManager(this);
         //Get all items from firebase
         db.collection("chats").document(id).collection("messages")
+                .orderBy("sentAt", Query.Direction.DESCENDING)
                 .get()
                 .addOnCompleteListener(new OnCompleteListener<QuerySnapshot>() {
                     @Override
@@ -109,6 +110,7 @@ public class DisplayChat extends AppCompatActivity {
                         userMessagesList.setLayoutManager(linearLayoutManager);
                         messagesAdapter = new MessagesAdapter(messagesList);
                         userMessagesList.setAdapter(messagesAdapter);
+                        ((LinearLayoutManager) linearLayoutManager).setReverseLayout(true);
                     }
                 });
 
