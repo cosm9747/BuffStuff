@@ -189,5 +189,9 @@ public class DisplayChat extends AppCompatActivity {
                     }
                 });
         m.setText("");
+        Intent intent = new Intent(this, DisplayChat.class);
+        intent.putExtra("ID", id);
+        startActivity(intent);
     }
+
 }
