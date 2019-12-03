@@ -1,6 +1,7 @@
 package com.example.buffstuff.Chat;
 
 import androidx.annotation.NonNull;
+import androidx.annotation.Nullable;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
@@ -27,11 +28,17 @@ import com.google.android.material.floatingactionbutton.FloatingActionButton;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.auth.FirebaseUser;
 import com.google.firebase.firestore.CollectionReference;
+import com.google.firebase.firestore.DocumentChange;
+import com.google.firebase.firestore.EventListener;
 import com.google.firebase.firestore.FirebaseFirestore;
+import com.google.firebase.firestore.FirebaseFirestoreException;
+import com.google.firebase.firestore.Query;
 import com.google.firebase.firestore.QueryDocumentSnapshot;
 import com.google.firebase.firestore.QuerySnapshot;
+import com.google.firebase.firestore.SnapshotMetadata;
 
 import java.util.ArrayList;
+import java.util.List;
 
 //Load page that shows buy options
 public class ChatActivity extends AppCompatActivity{
@@ -41,12 +48,16 @@ public class ChatActivity extends AppCompatActivity{
     com.example.buffstuff.Chat.ChatAdapter adapter;
     ArrayList<User> Users = new ArrayList<User>();
     FirebaseFirestore db = FirebaseFirestore.getInstance();
+    String id;
+
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
+
         //When this function is called
         super.onCreate(savedInstanceState);
         final Intent loadIntent = getIntent();
+        id = loadIntent.getStringExtra("ID");
         //Hold this context
         final RecyclerView.LayoutManager hold = new LinearLayoutManager(this);
         FirebaseAuth mAuth;
@@ -90,12 +101,7 @@ public class ChatActivity extends AppCompatActivity{
                     }
                 });
 
-
     }
-
-    
-
-
 
 
 

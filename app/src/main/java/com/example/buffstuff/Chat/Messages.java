@@ -5,17 +5,22 @@ import java.util.Date;
 public class Messages {
 
     String sender, text;
-    Date time;
+    Date sentAt;
+    Boolean self;
 
     public Messages() {
 
     }
 
-    public Messages(String sender, String text, Date time) {
+    public Messages(String sender, String text, Date sentAt) {
         this.sender = sender;
         this.text = text;
-        this.time = time;
+        this.sentAt = sentAt;
     }
+
+    public Boolean getIsSenderSelf() { return self; }
+
+    public void setIsSenderSelf(Boolean self) { this.self = self; }
 
     public String getSender() {
         return sender;
@@ -33,11 +38,12 @@ public class Messages {
         this.text = text;
     }
 
-    public Date getTime() {
-        return time;
+    public Date getSentAt() {
+        return sentAt;
     }
 
-    public void setTime(Date time) {
-        this.time = time;
+    public void setSentAt(Date sentAt) {
+        this.sentAt = sentAt;
     }
+
 }
