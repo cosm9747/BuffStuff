@@ -38,7 +38,7 @@
         android:layout_alignParentLeft="true"
         android:layout_marginStart="0dp"
         android:layout_marginLeft="5dp"
-        android:background="@drawable/my_message"
+        android:background="@drawable/their_message"
         android:padding="10dp"
         android:text="TextView" />
 

@@ -138,7 +138,7 @@
         android:textColor="#FFFFFFFF"
         app:layout_constraintBottom_toBottomOf="@+id/textView6"
         app:layout_constraintStart_toEndOf="@+id/textView6"
-        app:layout_constraintTop_toTopOf="@+id/textView6"/>
+        app:layout_constraintTop_toTopOf="@+id/textView6" />
 
     <ImageView
         android:id="@+id/imgview"
