@@ -1,6 +1,7 @@
 package com.example.buffstuff.Chat;
 
 import androidx.annotation.NonNull;
+import androidx.annotation.Nullable;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
@@ -11,6 +12,10 @@ import android.util.Log;
 import android.view.Menu;
 import android.view.MenuInflater;
 import android.view.MenuItem;
+import android.view.View;
+import android.widget.Button;
+import android.widget.EditText;
+import android.widget.ImageButton;
 
 import com.example.buffstuff.Buy.BuyActivity;
 import com.example.buffstuff.Login.MainActivity;
@@ -19,13 +24,21 @@ import com.example.buffstuff.Sell.SellActivity;
 import com.example.buffstuff.User.UserActivity;
 import com.google.android.gms.tasks.OnCompleteListener;
 import com.google.android.gms.tasks.Task;
+import com.google.android.material.floatingactionbutton.FloatingActionButton;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.auth.FirebaseUser;
+import com.google.firebase.firestore.CollectionReference;
+import com.google.firebase.firestore.DocumentChange;
+import com.google.firebase.firestore.EventListener;
 import com.google.firebase.firestore.FirebaseFirestore;
+import com.google.firebase.firestore.FirebaseFirestoreException;
+import com.google.firebase.firestore.Query;
 import com.google.firebase.firestore.QueryDocumentSnapshot;
 import com.google.firebase.firestore.QuerySnapshot;
+import com.google.firebase.firestore.SnapshotMetadata;
 
 import java.util.ArrayList;
+import java.util.List;
 
 //Load page that shows buy options
 public class ChatActivity extends AppCompatActivity{
@@ -35,12 +48,16 @@ public class ChatActivity extends AppCompatActivity{
     com.example.buffstuff.Chat.ChatAdapter adapter;
     ArrayList<User> Users = new ArrayList<User>();
     FirebaseFirestore db = FirebaseFirestore.getInstance();
+    String id;
+
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
+
         //When this function is called
         super.onCreate(savedInstanceState);
         final Intent loadIntent = getIntent();
+        id = loadIntent.getStringExtra("ID");
         //Hold this context
         final RecyclerView.LayoutManager hold = new LinearLayoutManager(this);
         FirebaseAuth mAuth;
@@ -55,12 +72,14 @@ public class ChatActivity extends AppCompatActivity{
                     public void onComplete(@NonNull Task<QuerySnapshot> task) {
                         //If succesfully accessed firebase
                         if (task.isSuccessful()) {
-                            //For every item in the database
-                            //Create an item card, set its name and price
-                            //Add item card to item list
+                            //For every item where you're the seller or person interested in buying
+                            //Create an item card,
+                            //Add item card to list
                             for (QueryDocumentSnapshot document : task.getResult()) {
                                 User user = new User();
                                 user.setName(document.getString("about"));
+                                user.setId(document.getId());
+                                //sender is the buyer, receiver is the seller
                                 if(userId.equals(document.getString("sender")) || userId.equals(document.getString("receiver"))){
                                     Users.add(user);
                                 }
@@ -70,10 +89,10 @@ public class ChatActivity extends AppCompatActivity{
                         else {
                             Log.d(TAG, "Problem");
                         }
-                        //Display buy activity on screen
+                        //Display chat activity on screen
                         setContentView(R.layout.chat_list);
 
-                        //Set the adapter to add all the item cards to the recycler view
+                        //Set the adapter to add all the chat cards to the recycler view
                         recyclerView = (RecyclerView) findViewById(R.id.chat_recycler_view);
                         recyclerView.setLayoutManager(hold);
                         adapter = new com.example.buffstuff.Chat.ChatAdapter(Users);
@@ -81,7 +100,11 @@ public class ChatActivity extends AppCompatActivity{
                         recyclerView.setAdapter(adapter);
                     }
                 });
+
     }
+
+
+
     //Create an options menu
     public boolean onCreateOptionsMenu(Menu menu) {
         MenuInflater inflater = getMenuInflater();

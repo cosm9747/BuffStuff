@@ -50,7 +50,7 @@ public class UploadActivity extends AppCompatActivity {
         Spinner con = (Spinner) findViewById(R.id.condition_spinner);
         Spinner cat = (Spinner) findViewById(R.id.category_spinner);
         //If some information left unfilled, make them fill
-        if(n.getText().toString().equals("") || p.getText().toString().equals("") || con.getSelectedItem().toString().equals("Select") || cat.getSelectedItem().toString().equals("Select")){
+        if(n.getText().toString().equals("") || p.getText().toString().equals("") || con.getSelectedItem().toString().equals("Select One") || cat.getSelectedItem().toString().equals("Select One")){
             Log.d(TAG, "goToSell: not all things entered");
             Toast.makeText(this, "Please fill out all categories",
                     Toast.LENGTH_SHORT).show();
