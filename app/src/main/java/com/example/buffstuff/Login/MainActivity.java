@@ -62,8 +62,9 @@ public class MainActivity extends AppCompatActivity {
 
         if(email.length() != 0 && password.length() != 0){
             findViewById(R.id.progressBar).setVisibility(View.VISIBLE);
+            //this makes the progress bar visible until the login process is complete
             final Intent intent = new Intent(this, BuyActivity.class);
-            mAuth.signInWithEmailAndPassword(email, password)
+            mAuth.signInWithEmailAndPassword(email, password) //this attempts to sign in with the given email and password
                     .addOnCompleteListener(this, new OnCompleteListener<AuthResult>() {
                         @Override
                         public void onComplete(@NonNull Task<AuthResult> task) {
@@ -75,6 +76,7 @@ public class MainActivity extends AppCompatActivity {
                             } else {
                                 // If sign in fails, display a message to the user.
                                 Log.w("Error", "signInWithEmail:failure", task.getException());
+                                //the toast messages are presented to the user when they get triggered, so in this case it means the user had an invalid email or password
                                 Toast.makeText(MainActivity.this, "Invalid Email or Password.",
                                         Toast.LENGTH_SHORT).show();
                             }
@@ -87,6 +89,7 @@ public class MainActivity extends AppCompatActivity {
                     Toast.LENGTH_SHORT).show();
         }
         findViewById(R.id.progressBar).setVisibility(View.INVISIBLE);
+        //makes progress bar invisible after async method is complete (Firebase sign-in method)
     }
 
 }
