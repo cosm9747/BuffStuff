@@ -19,12 +19,12 @@ import com.google.firebase.auth.FirebaseUser;
 import com.google.android.gms.tasks.Task;
 
 public class MainActivity extends AppCompatActivity {
-    private FirebaseAuth mAuth;
+    private FirebaseAuth mAuth; //to access Firebase Authentication
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_main);
+        setContentView(R.layout.activity_main); //setting the view associated with this activity (the UI)
 
         mAuth = FirebaseAuth.getInstance();
 
@@ -34,14 +34,16 @@ public class MainActivity extends AppCompatActivity {
     @Override
     public void onStart() {
         super.onStart();
-        FirebaseUser currentUser = mAuth.getCurrentUser();
-        if (currentUser != null){
+        FirebaseUser currentUser = mAuth.getCurrentUser(); //get the current user's information
+        if (currentUser != null){ //if user is already logged in, then go straight to the Buy Activity
+            //intents are how you transition to a different activity
             Intent intent = new Intent(this, BuyActivity.class);
             startActivity(intent);
         }
     }
 
     public void goToSignUp(View view) {
+        //this method gets triggered if they press the new user? button
         Intent intent = new Intent(this, SignUpActivity.class);
         startActivity(intent);
     }
@@ -50,10 +52,14 @@ public class MainActivity extends AppCompatActivity {
 
     public void goToHomeScreen(View view) {
 
+        //these are the checks that happen when user presses login
+
         EditText editText = (EditText) findViewById(R.id.editText);
         EditText editText2 = (EditText) findViewById(R.id.editText2);
         String email = editText.getText().toString();
         String password = editText2.getText().toString();
+        //gets the values of the text fields they entered their email and password in
+
         if(email.length() != 0 && password.length() != 0){
             findViewById(R.id.progressBar).setVisibility(View.VISIBLE);
             final Intent intent = new Intent(this, BuyActivity.class);
