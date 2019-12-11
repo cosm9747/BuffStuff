@@ -40,7 +40,7 @@ import com.google.firebase.firestore.SnapshotMetadata;
 import java.util.ArrayList;
 import java.util.List;
 
-//Load page that shows buy options
+//Load page that shows current chats
 public class ChatActivity extends AppCompatActivity{
     //For prints
     String TAG = "Testing";

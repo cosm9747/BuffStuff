@@ -2,6 +2,7 @@ package com.example.buffstuff.Chat;
 
 import java.util.Date;
 
+// Messages object used to display information about the messages
 public class Messages {
 
     String sender, text;

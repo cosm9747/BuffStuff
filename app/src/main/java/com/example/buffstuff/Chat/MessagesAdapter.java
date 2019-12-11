@@ -28,100 +28,7 @@ import java.util.List;
 
 public class MessagesAdapter extends RecyclerView.Adapter<MessagesAdapter.MessageViewHolder>
 {
-//    private List<Messages> userMessagesList;
-//    private FirebaseAuth mAuth;
-//    private Task<QuerySnapshot> userRef;
-//
-//    public MessagesAdapter(List<Messages> userMessagesList)
-//    {
-//        this.userMessagesList = userMessagesList;
-//    }
-//
-//
-//    public class MessageViewHolder extends RecyclerView.ViewHolder
-//    {
-//
-//        public TextView senderMessageText, receiverMessageText;
-//
-//
-//        public MessageViewHolder(@NonNull View itemView) {
-//            super(itemView);
-//
-//            senderMessageText = (TextView) itemView.findViewById(R.id.their_message_body);
-//            receiverMessageText = (TextView) itemView.findViewById(R.id.message_body);
-//        }
-//    }
-//
-//    @NonNull
-//    @Override
-//    public MessageViewHolder onCreateViewHolder(@NonNull ViewGroup parent, int viewType)
-//    {
-//        View view = LayoutInflater.from(parent.getContext())
-//                .inflate(R.layout.activity_chat, parent, false);
-//
-//        mAuth = FirebaseAuth.getInstance();
-//
-//        return new MessageViewHolder(view);
-//    }
-//
-//    @Override
-//    public void onBindViewHolder(@NonNull final MessageViewHolder holder, int position)
-//    {
-//        final String messageSenderId = mAuth.getCurrentUser().getUid();
-//        final Messages messages = userMessagesList.get(position);
-//
-//        final String fromUserId = messages.getSender();
-//
-//        userRef = FirebaseFirestore.getInstance()
-//                .collection("chats")
-//                .document()
-//                .collection("messages")
-//                .get()
-//                .addOnCompleteListener(new OnCompleteListener<QuerySnapshot>() {
-//                    @Override
-//                    public void onComplete(@NonNull Task<QuerySnapshot> task) {
-//                        if (task.isSuccessful()) {
-//
-//                            for (QueryDocumentSnapshot document : task.getResult()) {
-//
-//
-//
-//                                    holder.receiverMessageText.setVisibility(View.INVISIBLE);
-//
-//                                    if (fromUserId.equals(messageSenderId)) { // If you are the sender
-//
-//                                        holder.senderMessageText.setBackgroundResource(R.drawable.my_message);
-//                                        holder.senderMessageText.setTextColor(Color.BLACK);
-//                                        holder.senderMessageText.setText(messages.getText());
-//                                    }
-//
-//                                    else { // You are the receiver
-//
-//                                        holder.senderMessageText.setVisibility(View.INVISIBLE);
-//                                        holder.receiverMessageText.setVisibility(View.VISIBLE);
-//
-//
-//                                        holder.receiverMessageText.setBackgroundResource(R.drawable.their_message);
-//                                        holder.receiverMessageText.setTextColor(Color.BLACK);
-//                                        holder.receiverMessageText.setText(messages.getText());
-//
-//                                    }
-//                                }
-//
-//
-//
-//                        }
-//                    }
-//                });
-//
-//    }
-//    @Override
-//    public int getItemCount()
-//    {
-//        return userMessagesList.size();
-//    }
-
-
+    // This adapter is for the actual messages screen, used to display all of the messages in RV
 
     List<Messages> userMessagesList;
     Context context;
@@ -156,7 +63,7 @@ public class MessagesAdapter extends RecyclerView.Adapter<MessagesAdapter.Messag
     }
 
     @Override
-    //When this adapter is bound to a view, set the holder title and price
+    //When this adapter is bound to a view, set the message information
     public void onBindViewHolder(MessageViewHolder holder, final int position) {
         final Messages thing = userMessagesList.get(position);
 
@@ -183,10 +90,6 @@ public class MessagesAdapter extends RecyclerView.Adapter<MessagesAdapter.Messag
     public int getItemCount() {
         return userMessagesList.size();
     }
-
-
-
-
-
+    
 
 }

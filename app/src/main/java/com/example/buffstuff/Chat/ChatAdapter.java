@@ -15,7 +15,7 @@ import com.example.buffstuff.R;
 
 import java.util.List;
 
-//Adapter to create card for items and add them to recyclerView in buy page
+//Adapter to create card for active chats and add them to recyclerView in the chat page
 public class ChatAdapter extends RecyclerView.Adapter<ChatAdapter.ViewHolder> {
 
     List<User> UserList;
@@ -37,7 +37,7 @@ public class ChatAdapter extends RecyclerView.Adapter<ChatAdapter.ViewHolder> {
     }
 
     @Override
-    //When this adapter is bound to a view, set the holder title and price
+    //When this adapter is bound to a view, set the item name where your chat will bne
     public void onBindViewHolder(ViewHolder holder, final int position) {
         final User thing = UserList.get(position);
         Log.d(TAG, "Doing something");
@@ -64,7 +64,7 @@ public class ChatAdapter extends RecyclerView.Adapter<ChatAdapter.ViewHolder> {
         TextView name;
         CardView cv;
 
-        //Create new itemView for each item in passed item list
+        //Create new itemView for each chat item chat list
         public ViewHolder(View userView)
         {
             super(userView);
