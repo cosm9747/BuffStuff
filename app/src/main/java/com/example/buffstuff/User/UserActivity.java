@@ -45,21 +45,22 @@ public class UserActivity extends AppCompatActivity {
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_user);
+        setContentView(R.layout.activity_user);//get user account settings view
 
-        db = FirebaseFirestore.getInstance();
+        db = FirebaseFirestore.getInstance(); //write to database
         mAuth = FirebaseAuth.getInstance();
 
-        FirebaseUser currentUser = mAuth.getCurrentUser();
-        String id = currentUser.getUid();
+        FirebaseUser currentUser = mAuth.getCurrentUser(); // get current user information
+        String id = currentUser.getUid(); // current user id info
 
         final TextView e = (TextView) findViewById(R.id.textView9); //email
         final EditText n = (EditText) findViewById(R.id.editText5); //name
         final EditText b = (EditText) findViewById(R.id.editText6); //bio
 
         String email = currentUser.getEmail();
-        e.setText(email);
+        e.setText(email);//write email to screen
 
+        //fetch from database
         DocumentReference docRef = db.collection("users").document(id).collection("profile").document(id);
         docRef.get().addOnCompleteListener(new OnCompleteListener<DocumentSnapshot>() {
             @Override
@@ -69,56 +70,58 @@ public class UserActivity extends AppCompatActivity {
                     if (document.exists()) {
 
                         String name = document.getString("name");
-                        n.setText(name);
+                        n.setText(name); //save name to screen
 
                         String bio = document.getString("bio");
-                        b.setText(bio);
+                        b.setText(bio); //save bio to screen
 
-                        Log.d("tag", "DocumentSnapshot data: " + document.getData());
+                        Log.d("tag", "DocumentSnapshot data: " + document.getData()); //write to db
 
                     } else {
                         Log.d("tag", "No such document");
                     }
                 } else {
-                    Log.d("tag", "get failed with ", task.getException());
+                    Log.d("tag", "get failed with ", task.getException()); //print toast if failed
                 }
             }
         });
     }
-
+    //update users information
     public void updateInfo(View view) {
 
-        final FirebaseUser currentUser = mAuth.getCurrentUser();
+        final FirebaseUser currentUser = mAuth.getCurrentUser(); //grab current user with id
         String id = currentUser.getUid();
 
         final TextView e = (TextView) findViewById(R.id.textView9); //email
         final EditText n = (EditText) findViewById(R.id.editText5); //name
         final EditText b = (EditText) findViewById(R.id.editText6); //bio
-        final EditText cp = findViewById(R.id.editpassword1);
-        final EditText np = findViewById(R.id.editpassword2);
+        final EditText cp = findViewById(R.id.editpassword1); //current password
+        final EditText np = findViewById(R.id.editpassword2); //new password
 
-        final String currentPassword = cp.getText().toString();
-        final String newPassword = np.getText().toString();
+        final String currentPassword = cp.getText().toString(); //grab current password info
+        final String newPassword = np.getText().toString(); // get new password
 
+        //create map to string
         Map<String, Object> userInfo = new HashMap<>();
         userInfo.put("name", n.getText().toString());
         userInfo.put("bio", b.getText().toString());
+        //grab info from database
         db.collection("users").document(id).collection("profile").document(id)
                 .set(userInfo)
                 .addOnSuccessListener(new OnSuccessListener<Void>() {
                     @Override
                     public void onSuccess(Void aVoid) {
-                        if(newPassword.length() == 0 || currentPassword.length() == 0) {
+                        if(newPassword.length() == 0 || currentPassword.length() == 0) { // get password requirments
                             Toast.makeText(UserActivity.this, "Successfully updated profile.",
                                     Toast.LENGTH_SHORT).show();
                         }
-                        Log.d("tag", "DocumentSnapshot successfully written!");
+                        Log.d("tag", "DocumentSnapshot successfully written!"); //successfullt writen to db toast
                     }
                 })
                 .addOnFailureListener(new OnFailureListener() {
                     @Override
                     public void onFailure(@NonNull Exception e) {
-                        Log.w("tag", "Error writing document", e);
+                        Log.w("tag", "Error writing document", e); //failed to db
                     }
                 });
         //update password method
