@@ -14,6 +14,7 @@ Instructions: Our app was deployed locally using Android Studio. In order to acc
 -Open up the project within Android Studio
 
 -Follow the instructions to configure an Android Virtual Device (AVD), We recommend using a Pixel 2 and API 28. Link: https://developer.android.com/studio/run/managing-avds
+    
     -Alternatively, if you own an Android phone you can connect the phone to your computer via USB and select “Unknown Device” in the drop down menu next to the play button. Make sure that in your phone settings you have “Developer Mode” turned on.
 
 -Once your AVD is set up, hit the green play button at the top of Android Studio to run the project.
