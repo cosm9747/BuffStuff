@@ -1,7 +1,7 @@
 # BuffStuff
 A place where Buffs can buy and sell their stuff. 
 
-Description: College students can find it difficult to get off campus to buy the things they need. Buff Stuff would allow CU Boulder students to sell and buy goods from other students. That way, the exchanges could happen on campus and students have some additional security knowing they will be meeting with other students.
+Description: College students can find it difficult to get off campus to buy the things they need. Buff Stuff is an app that allows CU Boulder students to sell and buy goods from other students. That way, the exchanges could happen on campus and students have some additional security knowing they will be meeting with other students.
 
 Organization: This repo contains different branch for each section of the app: Buy, Chat, Login, Sell, and User. These branches contain any initial changes to the code of these features. Once this code is reviewed, it is pulled into develop. At increments, develop is pulled into the master branch when develop has been determined to be bug free.
 
